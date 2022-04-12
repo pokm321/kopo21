@@ -1,42 +1,42 @@
 #include <stdio.h>
 
-const float RATE_USD = 1233.1; //´Ş·¯È¯À² 
-const float RATE_JPY = 9.87; //¿£È­È¯À²
-const float RATE_EUR = 1342.51; //À¯·ÎÈ¯À²
-const float RATE_CNY = 193.5; //À§¾ÈÈ¯À² 
-const float RATE_GBP = 1603.15; //ÆÄ¿îµåÈ¯À² 
+const float RATE_USD = 1233.1; //ë‹¬ëŸ¬í™˜ìœ¨ 
+const float RATE_JPY = 9.87; //ì—”í™”í™˜ìœ¨
+const float RATE_EUR = 1342.51; //ìœ ë¡œí™˜ìœ¨
+const float RATE_CNY = 193.5; //ìœ„ì•ˆí™˜ìœ¨ 
+const float RATE_GBP = 1603.15; //íŒŒìš´ë“œí™˜ìœ¨ 
 int inputWon, output, change;
 
-// È¯Àü±İ¾×(output)°ú °Å½º¸§µ·(change)À» °è»êÇÏ´Â ÇÔ¼ö 
-int exchange(float a, char *unit) { //a´Â È¯À², unitÀº È­Æó´ÜÀ§ 
-	printf("\n±âÁØ È¯À² : %.2f KRW/%s\n\nÈ¯Àü °á°ú\n", a, unit); //±âÁØÈ¯À² Ãâ·Â 
-	output = inputWon / a; //È¯Àü±İ¾× °è»ê 
-	change = (int)(inputWon - output * a) / 10 * 10; //°Å½º¸§µ· °è»ê 
+// í™˜ì „ê¸ˆì•¡(output)ê³¼ ê±°ìŠ¤ë¦„ëˆ(change)ì„ ê³„ì‚°í•˜ëŠ” í•¨ìˆ˜ 
+int exchange(float a, char *unit) { //aëŠ” í™˜ìœ¨, unitì€ í™”íë‹¨ìœ„ 
+	printf("\nê¸°ì¤€ í™˜ìœ¨ : %.2f KRW/%s\n\ní™˜ì „ ê²°ê³¼\n", a, unit); //ê¸°ì¤€í™˜ìœ¨ ì¶œë ¥ 
+	output = inputWon / a; //í™˜ì „ê¸ˆì•¡ ê³„ì‚° 
+	change = (int)(inputWon - output * a) / 10 * 10; //ê±°ìŠ¤ë¦„ëˆ ê³„ì‚° 
 	return 0;
 }
 
-// °Å½º¸§µ·(change)°ú ±× ÁöÆó°¹¼ö Ãâ·Â ÇÔ¼ö 
+// ê±°ìŠ¤ë¦„ëˆ(change)ê³¼ ê·¸ ì§€íê°¯ìˆ˜ ì¶œë ¥ í•¨ìˆ˜ 
 int ChangesToGive () {
-	// °Å½º¸§µ· Ãâ·Â 
-	printf("°Å½º¸§µ·: %d¿ø ---> ", change);
-	// ÁöÆó°¹¼ö Ãâ·Â 
-	printf("1000¿ø:%d,  ", change / 1000);
+	// ê±°ìŠ¤ë¦„ëˆ ì¶œë ¥ 
+	printf("ê±°ìŠ¤ë¦„ëˆ: %dì› ---> ", change);
+	// ì§€íê°¯ìˆ˜ ì¶œë ¥ 
+	printf("1000ì›:%d,  ", change / 1000);
 	change = change % 1000;
-	printf("500¿ø:%d,  ", change / 500);
+	printf("500ì›:%d,  ", change / 500);
 	change = change % 500;
-	printf("100¿ø:%d,  ", change / 100);
+	printf("100ì›:%d,  ", change / 100);
 	change = change % 100;
-	printf("50¿ø:%d,  ", change / 50); 
+	printf("50ì›:%d,  ", change / 50); 
 	change = change % 50;
-	printf("10¿ø:%d\n", change / 10);
+	printf("10ì›:%d\n", change / 10);
 	return 0; 
 }
 
-// È¯Àü±İ¾×(output)°ú ÁöÆó°¹¼ö Ãâ·Â ÇÔ¼ö
-int BillsToGive(char *unit, int bill_1, int bill_2, int bill_3, int bill_4, int bill_5) { // (È­Æó, ÁöÆó´ÜÀ§ 1,2,3,4,5) 
-	// È¯Àü±İ¾× Ãâ·Â (e.g. "´Ş·¯ : 40´Ş·¯")
+// í™˜ì „ê¸ˆì•¡(output)ê³¼ ì§€íê°¯ìˆ˜ ì¶œë ¥ í•¨ìˆ˜
+int BillsToGive(char *unit, int bill_1, int bill_2, int bill_3, int bill_4, int bill_5) { // (í™”í, ì§€íë‹¨ìœ„ 1,2,3,4,5) 
+	// í™˜ì „ê¸ˆì•¡ ì¶œë ¥ (e.g. "ë‹¬ëŸ¬ : 40ë‹¬ëŸ¬")
 	printf("%s : %d%s ---> ", unit, output, unit);
-	// ÁöÆó°¹¼ö Ãâ·Â 
+	// ì§€íê°¯ìˆ˜ ì¶œë ¥ 
 	printf("%d%s:%d,  ", bill_1, unit, output / bill_1);
 	output = output % bill_1;
 	printf("%d%s:%d,  ", bill_2, unit, output / bill_2);
@@ -49,34 +49,32 @@ int BillsToGive(char *unit, int bill_1, int bill_2, int bill_3, int bill_4, int 
 	return 0; 
 }
 
-
-
 int main() {
 	int currency;
 	
-	printf("È¯ÀüÀ» ¿øÇÏ´Â ±İ¾×À» ÀÔ·ÂÇÏ¼¼¿ä(¿øÈ­) : ");
-	scanf("%d", &inputWon);	//°¡Á®¿Â ¿øÈ­ ÀÔ·Â 
+	printf("í™˜ì „ì„ ì›í•˜ëŠ” ê¸ˆì•¡ì„ ì…ë ¥í•˜ì„¸ìš”(ì›í™”) : ");
+	scanf("%d", &inputWon);	//ê°€ì ¸ì˜¨ ì›í™” ì…ë ¥ 
 	
 	do {
-		printf("È¯ÀüÇÒ ¿ÜÈ­¸¦ ¼±ÅÃÇÏ¼¼¿ä (1:USD, 2:JPY, 3:EUR 4.CNY, 5:GBP) : ");
-		scanf("%d", &currency); // ¿ÜÈ­ ¼±ÅÃ ÀÔ·Â 
-	} while (currency < 1 || currency > 5); //ÀÔ·Â°ªÀÌ 1~5ÀÏ¶§ ³Ñ¾î°¨ 
+		printf("í™˜ì „í•  ì™¸í™”ë¥¼ ì„ íƒí•˜ì„¸ìš” (1:USD, 2:JPY, 3:EUR 4.CNY, 5:GBP) : ");
+		scanf("%d", &currency); // ì™¸í™” ì„ íƒ ì…ë ¥ 
+	} while (currency < 1 || currency > 5); //ì…ë ¥ê°’ì´ 1~5ì¼ë•Œ ë„˜ì–´ê° 
 
 	if (currency == 1) { // 1:USD
 		exchange(RATE_USD, "USD");
-		BillsToGive("´Ş·¯", 100, 50, 20, 5, 1);
+		BillsToGive("ë‹¬ëŸ¬", 100, 50, 20, 5, 1);
 	} else if (currency == 2) {
 		exchange(RATE_JPY, "JPY"); // 2:JPY
-		BillsToGive("¿£", 5000, 1000, 100, 10, 1);
+		BillsToGive("ì—”", 5000, 1000, 100, 10, 1);
 	} else if (currency == 3) { // 3:EUR
 		exchange(RATE_EUR, "EUR");
-		BillsToGive("À¯·Î", 100, 50, 20, 5, 1);
+		BillsToGive("ìœ ë¡œ", 100, 50, 20, 5, 1);
 	} else if (currency == 4) { // 4.CNY
 		exchange(RATE_CNY, "CNY");
-		BillsToGive("À§¾È", 100, 50, 20, 5, 1);
+		BillsToGive("ìœ„ì•ˆ", 100, 50, 20, 5, 1);
 	} else if (currency == 5) { // 5:GBP
 		exchange(RATE_GBP, "GBP");
-		BillsToGive("ÆÄ¿îµå", 50, 20, 10, 5, 1);
+		BillsToGive("íŒŒìš´ë“œ", 50, 20, 10, 5, 1);
 	}
 	
 	ChangesToGive(); 
