@@ -8,8 +8,8 @@ const float RATE_GBP = 1603.15; //파운드환율
 int inputWon, output, change;
 
 // 환전금액(output)과 거스름돈(change)을 계산하는 함수 
-int exchange(float a) { //a는 환율
-	printf("기준 환율 : %.2f\n환전 결과\n", a);
+int exchange(float a, char *unit) { //a는 환율, unit은 화폐단위 
+	printf("\n기준 환율 : %.2f KRW/%s\n\n환전 결과\n", a, unit); //기준환율 출력 
 	output = inputWon / a; //환전금액 계산 
 	change = (int)(inputWon - output * a) / 10 * 10; //거스름돈 계산 
 	return 0;
@@ -27,7 +27,7 @@ int ChangesToGive () {
 	change = change % 100;
 	printf("50원:%d,  ", change / 50); 
 	change = change % 50;
-	printf("10원:%d,  \n", change / 10);
+	printf("10원:%d\n", change / 10);
 	return 0; 
 }
 
@@ -44,7 +44,7 @@ int BillsToGive(char *unit, int bill_1, int bill_2, int bill_3, int bill_4, int 
 	output = output % bill_3;
 	printf("%d%s:%d,  ", bill_4, unit, output / bill_4);
 	output = output % bill_4;
-	printf("%d%s:%d,  \n", bill_5, unit, output / bill_5);
+	printf("%d%s:%d\n", bill_5, unit, output / bill_5);
 	return 0; 
 }
 
@@ -62,19 +62,19 @@ int main() {
 	} while (currency < 1 || currency > 5); //입력값이 1~5일때 넘어감 
 
 	if (currency == 1) { // 1:USD
-		exchange(RATE_USD);
+		exchange(RATE_USD, "USD");
 		BillsToGive("달러", 100, 50, 20, 5, 1);
 	} else if (currency == 2) {
-		exchange(RATE_JPY); // 2:JPY
+		exchange(RATE_JPY, "JPY"); // 2:JPY
 		BillsToGive("엔", 5000, 1000, 100, 10, 1);
 	} else if (currency == 3) { // 3:EUR
-		exchange(RATE_EUR);
+		exchange(RATE_EUR, "EUR");
 		BillsToGive("유로", 100, 50, 20, 5, 1);
 	} else if (currency == 4) { // 4.CNY
-		exchange(RATE_CNY);
+		exchange(RATE_CNY, "CNY");
 		BillsToGive("위안", 100, 50, 20, 5, 1);
 	} else if (currency == 5) { // 5:GBP
-		exchange(RATE_GBP);
+		exchange(RATE_GBP, "GBP");
 		BillsToGive("파운드", 50, 20, 10, 5, 1);
 	}
 	
