@@ -18,8 +18,9 @@ int exchange(float a, char *unit) { //a는 환율, unit은 화폐단위
 // 거스름돈(change)과 그 지폐갯수 출력 함수 
 int ChangesToGive () {
 	// 거스름돈 출력 
-	printf("거스름돈: %d원 ---> 1000원:%d,  ", change, change / 1000);
+	printf("거스름돈: %d원 ---> ", change);
 	// 지폐갯수 출력 
+	printf("1000원:%d,  ", change / 1000);
 	change = change % 1000;
 	printf("500원:%d,  ", change / 500);
 	change = change % 500;
