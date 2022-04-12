@@ -5,9 +5,9 @@ const float RATE_JPY = 9.87; //엔화환율
 const float RATE_EUR = 1342.51; //유로환율
 const float RATE_CNY = 193.5; //위안환율 
 const float RATE_GBP = 1603.15; //파운드환율 
-
 int inputWon, output, change;
 char *unit;
+
 int ChangesToGive (int a) { //int a 는 거스름돈 
 	printf("거스름돈: %d원 ---> 1000원:%d,  ", a, a / 1000);
 	a = a % 1000;
