@@ -1,4 +1,4 @@
-package test;
+package test; ///
  
 import java.awt.Robot;
 import java.awt.event.InputEvent;
