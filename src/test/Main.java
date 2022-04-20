@@ -17,19 +17,19 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class Main {
 	static WebDriver driver;
-	static int REVIEWS_MIN = 50; //µ¥ÀÌÅÍ¿¡ ³Ö±âÀ§ÇÑ ÃÖ¼Ò ¸®ºä°¹¼ö ±âÁØ
-	//////////// Å¬¸¯
+	static int REVIEWS_MIN = 50; //ë°ì´í„°ì— ë„£ê¸°ìœ„í•œ ìµœì†Œ ë¦¬ë·°ê°¯ìˆ˜ ê¸°ì¤€
+	//////////// í´ë¦­
 	private static void click(String a) {
 		driver.findElement(By.xpath(a)).click();
 	}
 	
-	//////////// ÅØ½ºÆ® °¡Á®¿À±â
+	//////////// í…ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
 	private static String getText(String a) {
 		String text = driver.findElement(By.xpath(a)).getText();
 		return text;
 	}
 	
-	//////////// ·Î±×ÀÎ
+	//////////// ë¡œê·¸ì¸
 	private void login() {
 		try {
 			driver.get("https://hogangnono.com/");
@@ -51,10 +51,10 @@ public class Main {
 		}
 	}
 	
-	//////////// ÃÖ±Ù,¿¾³¯ ¸Å¸Å°¡°İÈ®ÀÎ
+	//////////// ìµœê·¼,ì˜›ë‚  ë§¤ë§¤ê°€ê²©í™•ì¸
 	private float getPriceIncrease() {
 		
-		// µÉ¶§±îÁö ´õº¸±â Å¬¸¯ ¹İº¹
+		// ë ë•Œê¹Œì§€ ë”ë³´ê¸° í´ë¦­ ë°˜ë³µ
 		while(true) {
 			try {
 				click("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[1]/div/div/div[1]/div[4]/div[2]/div[3]/a/div");
@@ -66,10 +66,10 @@ public class Main {
 			}
 		}
 		
-		//Á¦ÀÏ ÃÖ±Ù°¡°İ°ú ³¯Â¥ ÀúÀå
+		//ì œì¼ ìµœê·¼ê°€ê²©ê³¼ ë‚ ì§œ ì €ì¥
 		String priceNewString = getText("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/div/div[1]/div[4]/div[2]/div[3]/table/tbody/tr[1]/td[2]");
 		int priceNewYear = Integer.parseInt((getText("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/div/div[1]/div[4]/div[2]/div[3]/table/tbody/tr[1]/td[1]").split("\\."))[0]);
-		//Á¦ÀÏ ¿¾³¯°¡°İ°ú ³¯Â¥ ÀúÀå
+		//ì œì¼ ì˜›ë‚ ê°€ê²©ê³¼ ë‚ ì§œ ì €ì¥
 		int i = 0;
 		String priceOldString = "";
 		int priceOldYear = 0;
@@ -87,45 +87,45 @@ public class Main {
 			return 0;
 		}
 		
-		// 9¾ï 5,000 ÇüÅÂ¸¦ 95000À¸·Î º¯È¯
-		priceNewString = priceNewString.replace("¾ï", "0000").replace(",", "");
+		// 9ì–µ 5,000 í˜•íƒœë¥¼ 95000ìœ¼ë¡œ ë³€í™˜
+		priceNewString = priceNewString.replace("ì–µ", "0000").replace(",", "");
 		float priceNew = 0;
 		String[] arrayTemp = priceNewString.split(" ");
 		for (i = 0; i < arrayTemp.length; i++) {
 			priceNew += Integer.parseInt(arrayTemp[i]);
 		}
 		
-		priceOldString = priceOldString.replace("¾ï", "0000").replace(",", "");
+		priceOldString = priceOldString.replace("ì–µ", "0000").replace(",", "");
 		float priceOld = 0;
 		arrayTemp = priceOldString.split(" ");
 		for (i = 0; i < arrayTemp.length; i++) {
 			priceOld += Integer.parseInt(arrayTemp[i]);
 		}
 		
-		//ÇöÀç°¡°İÀÌ ¿¾³¯°¡°İ ´ëºñ ¸Å³â Æò±Õ ¸î% ¿Ã¶ú´Â°¡
-		float priceIncrease = (float) Math.pow((priceNew / priceOld), 1.0 / (priceNewYear - priceOldYear)); // º¹¸®·Î °è»ê
-		priceIncrease = (float) ((Math.round(1000 * priceIncrease) / 10.0) - 100); //100À» °öÇØ¼­ %´ÜÀ§·Î ¹Ù²Ù°í, ¼Ò¼öÁ¡ ÇÑÀÚ¸®±îÁö ¹İ¿Ã¸²
+		//í˜„ì¬ê°€ê²©ì´ ì˜›ë‚ ê°€ê²© ëŒ€ë¹„ ë§¤ë…„ í‰ê·  ëª‡% ì˜¬ëëŠ”ê°€
+		float priceIncrease = (float) Math.pow((priceNew / priceOld), 1.0 / (priceNewYear - priceOldYear)); // ë³µë¦¬ë¡œ ê³„ì‚°
+		priceIncrease = (float) ((Math.round(1000 * priceIncrease) / 10.0) - 100); //100ì„ ê³±í•´ì„œ %ë‹¨ìœ„ë¡œ ë°”ê¾¸ê³ , ì†Œìˆ˜ì  í•œìë¦¬ê¹Œì§€ ë°˜ì˜¬ë¦¼
 		return priceIncrease;
 	}
 	
-	//////////// ¸ŞÀÎ
+	//////////// ë©”ì¸
 	public static void main(String[] args) {
 		try {
 			Main main = new Main();
-			BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\user\\Desktop\\Project\\Apt 2021.csv")); // °¡Á®¿Ã ¾ÆÆÄÆ® ¸ñ·Ï
-			File file = new File("C:\\Users\\user\\Desktop\\Project\\Result.csv"); // °á°ú¸¦ ÀÔ·ÂÇÒ ÆÄÀÏ
+			BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\user\\Desktop\\Project\\Apt 2021.csv")); // ê°€ì ¸ì˜¬ ì•„íŒŒíŠ¸ ëª©ë¡
+			File file = new File("C:\\Users\\user\\Desktop\\Project\\Result.csv"); // ê²°ê³¼ë¥¼ ì…ë ¥í•  íŒŒì¼
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
 			System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
 			driver = new ChromeDriver();
 			
-			// ±àÁ¤Àû, ºÎÁ¤Àû Å°¿öµåµé
-			ArrayList<String> positive = new ArrayList<String>(Arrays.asList("ÁÁ¾Æ¿ä", "ÁÁÀ½", "ÁÁ³×¿ä", "ÁÁ½À´Ï´Ù", "ÁÁÀ¸¸ç", " ÆíÇØ¿ä", " ÆíÇÔ", "¾Æ¸§´Ù¿î", "¸ÚÁø", "ÃÖ°í¿¡¿ä", "ÃÖ°íÀÔ´Ï´Ù", "³¡³»Áİ´Ï´Ù", "Æí¸®ÇÏ°í", "Æí¸®ÇØ¿ä", "Æí¸®ÇÕ´Ï´Ù", "Á¶¿ëÇÏ", "Á¶¿ëÇØ", "Á¶¿ëÇÕ", "¾Æ´Á", "ÀúÆò°¡", "È¯»óÀû", "½Ã²ô·´", "½Ã²ô·¯¿ö", "¿¹»µ", "¿¹»Ş´Ï´Ù"));
-			ArrayList<String> negative = new ArrayList<String>(Arrays.asList("ºÒÆíÇØ¿ä", "ºÒÆíÇÕ´Ï´Ù", "ÈìÀÔ´Ï´Ù", "ÈìÀÌ¿¡¿ä", "³ªºü¿ä", "³ª»Ş´Ï´Ù", "¾ÈÁÁ", "¾È ÁÁ", "ÁÁÁö¸ø", "ÁÁÁö ¸ø", "¸Ö¾î¿ä", "ÄèÀûÇØ¿ä", "ÄèÀûÇÕ´Ï´Ù", "³ëÈÄÈ­", "½É°¢ÇÔ", "½É°¢ÇÕ´Ï´Ù", "½É°¢ÇØ¿ä", "ÁÖÂ÷¹®Á¦", "ÁÖÂ÷³­", "½Ã²ô·¯¿ö¿ä", "½Ã²ô·´½À´Ï", "ºÎÁ·ÇØ¿ä", "ºÎÁ·ÇÕ´Ï´Ù", "¾î·Á¿ö¿ä", "¾î·Æ½À´Ï´Ù", "ÃÖ¾ÇÀÔ", "ÃÖ¾ÇÀÓ", "ÃÖ¾ÇÀÌ¿¡¿ä", "²ûÂïÇÕ", "²ûÂïÇÔ", "²ûÂïÇØ¿ä", "Ãş°£¼ÒÀ½", "Ãş°£ ¼ÒÀ½", "½ºÆ®·¹½º", "°íÆò°¡", "½ÉÇÔ", "½ÉÇÕ"));
+			// ê¸ì •ì , ë¶€ì •ì  í‚¤ì›Œë“œë“¤
+			ArrayList<String> positive = new ArrayList<String>(Arrays.asList("ì¢‹ì•„ìš”", "ì¢‹ìŒ", "ì¢‹ë„¤ìš”", "ì¢‹ìŠµë‹ˆë‹¤", "ì¢‹ìœ¼ë©°", " í¸í•´ìš”", " í¸í•¨", "ì•„ë¦„ë‹¤ìš´", "ë©‹ì§„", "ìµœê³ ì—ìš”", "ìµœê³ ì…ë‹ˆë‹¤", "ëë‚´ì¤ë‹ˆë‹¤", "í¸ë¦¬í•˜ê³ ", "í¸ë¦¬í•´ìš”", "í¸ë¦¬í•©ë‹ˆë‹¤", "ì¡°ìš©í•˜", "ì¡°ìš©í•´", "ì¡°ìš©í•©", "ì•„ëŠ‘", "ì €í‰ê°€", "í™˜ìƒì ", "ì‹œë„ëŸ½", "ì‹œë„ëŸ¬ì›Œ", "ì˜ˆë»", "ì˜ˆì©ë‹ˆë‹¤"));
+			ArrayList<String> negative = new ArrayList<String>(Arrays.asList("ë¶ˆí¸í•´ìš”", "ë¶ˆí¸í•©ë‹ˆë‹¤", "í ì…ë‹ˆë‹¤", "í ì´ì—ìš”", "ë‚˜ë¹ ìš”", "ë‚˜ì©ë‹ˆë‹¤", "ì•ˆì¢‹", "ì•ˆ ì¢‹", "ì¢‹ì§€ëª»", "ì¢‹ì§€ ëª»", "ë©€ì–´ìš”", "ì¾Œì í•´ìš”", "ì¾Œì í•©ë‹ˆë‹¤", "ë…¸í›„í™”", "ì‹¬ê°í•¨", "ì‹¬ê°í•©ë‹ˆë‹¤", "ì‹¬ê°í•´ìš”", "ì£¼ì°¨ë¬¸ì œ", "ì£¼ì°¨ë‚œ", "ì‹œë„ëŸ¬ì›Œìš”", "ì‹œë„ëŸ½ìŠµë‹ˆ", "ë¶€ì¡±í•´ìš”", "ë¶€ì¡±í•©ë‹ˆë‹¤", "ì–´ë ¤ì›Œìš”", "ì–´ë µìŠµë‹ˆë‹¤", "ìµœì•…ì…", "ìµœì•…ì„", "ìµœì•…ì´ì—ìš”", "ë”ì°í•©", "ë”ì°í•¨", "ë”ì°í•´ìš”", "ì¸µê°„ì†ŒìŒ", "ì¸µê°„ ì†ŒìŒ", "ìŠ¤íŠ¸ë ˆìŠ¤", "ê³ í‰ê°€", "ì‹¬í•¨", "ì‹¬í•©"));
 			
-			bw.write("ÁÖ¼Ò,¸Å³â °¡°İÁõ°¡À²(%),¿¾³¯ ¿©·Ğ(±àÁ¤Àû ºñÀ²),¿¾³¯ ±àÁ¤ÀûÅ°¿öµå,¿¾³¯ ºÎÁ¤ÀûÅ°¿öµå,ÃÖ±Ù1³â°£ ¿©·Ğ(±àÁ¤Àû ºñÀ²),ÃÖ±Ù1³â°£ ±àÁ¤ÀûÅ°¿öµå ¼ö,ÃÖ±Ù1³â°£ ºÎÁ¤ÀûÅ°¿öµå ¼ö\n"); //°á°úÆÄÀÏÀÇ Ã¹ÁÙ±â·Ï
+			bw.write("ì£¼ì†Œ,ë§¤ë…„ ê°€ê²©ì¦ê°€ìœ¨(%),ì˜›ë‚  ì—¬ë¡ (ê¸ì •ì  ë¹„ìœ¨),ì˜›ë‚  ê¸ì •ì í‚¤ì›Œë“œ,ì˜›ë‚  ë¶€ì •ì í‚¤ì›Œë“œ,ìµœê·¼1ë…„ê°„ ì—¬ë¡ (ê¸ì •ì  ë¹„ìœ¨),ìµœê·¼1ë…„ê°„ ê¸ì •ì í‚¤ì›Œë“œ ìˆ˜,ìµœê·¼1ë…„ê°„ ë¶€ì •ì í‚¤ì›Œë“œ ìˆ˜\n"); //ê²°ê³¼íŒŒì¼ì˜ ì²«ì¤„ê¸°ë¡
 			
-			main.login(); //·Î±×ÀÎ
+			main.login(); //ë¡œê·¸ì¸
 			
 			String line;
 			int skip = 0;
@@ -134,7 +134,7 @@ public class Main {
 			String address = "";
 			int reviews;
 			String url;
-			while ((line = br.readLine()) != null && cnt < 2) { //¿¢¼¿ÆÄÀÏ¿¡¼­ ÁÖ¼Ò»Ì¾Æ¿Í¼­ È£°»³ë³ë¿¡¼­ µ¥ÀÌÅÍÃßÃâÈÄ ResultÆÄÀÏ¿¡ ±â·Ï, ±×°É ¹İº¹
+			while ((line = br.readLine()) != null) { //ì—‘ì…€íŒŒì¼ì—ì„œ ì£¼ì†Œë½‘ì•„ì™€ì„œ í˜¸ê°±ë…¸ë…¸ì—ì„œ ë°ì´í„°ì¶”ì¶œí›„ ResultíŒŒì¼ì— ê¸°ë¡, ê·¸ê±¸ ë°˜ë³µ
 				lineCnt++;
 				System.out.println(lineCnt + "...");
 				if (skip < 248){ //skips the first 16 lines which have no data
@@ -145,41 +145,41 @@ public class Main {
 				line = line.replace("\"", "");
 				String[] array = line.split(",");	
 				
-				if ((array[0] + " " + array[1]).equals(address)) { //Áßº¹µÇ´Â ÁÖ¼Òµé ½ºÅµ
+				if ((array[0] + " " + array[1]).equals(address)) { //ì¤‘ë³µë˜ëŠ” ì£¼ì†Œë“¤ ìŠ¤í‚µ
 					continue;
 				}
 				address = (array[0] + " " + array[1]);
 				
 				
-				//////////////////////////////////////////////////////////////////ÁÖ¼Ò¿­±â
+				//////////////////////////////////////////////////////////////////ì£¼ì†Œì—´ê¸°
 				driver.get("https://www.google.com");
 				Thread.sleep(500);
-				driver.findElement(By.xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input")).sendKeys(address + " site:hogangnono.com" + Keys.ENTER); //±¸±Û°Ë»ö
+				driver.findElement(By.xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input")).sendKeys(address + " site:hogangnono.com" + Keys.ENTER); //êµ¬ê¸€ê²€ìƒ‰
 				Thread.sleep(1000);
-				if (driver.findElements(By.xpath(url = "/html/body/div[7]/div/div[10]/div/div[2]/div[2]/div/div/div[1]/div/div[1]/div/a/h3")).size() > 0) { //Ã¹¹øÂ° °Ë»ö°á°ú Å¬¸¯ÇÏ´Âµ¥
+				if (driver.findElements(By.xpath(url = "/html/body/div[7]/div/div[10]/div/div[2]/div[2]/div/div/div[1]/div/div[1]/div/a/h3")).size() > 0) { //ì²«ë²ˆì§¸ ê²€ìƒ‰ê²°ê³¼ í´ë¦­í•˜ëŠ”ë°
 					click(url);
-				} else if (driver.findElements(By.xpath(url = "/html/body/div[7]/div/div[11]/div/div[2]/div[2]/div/div/div[1]/div/div[1]/div/a/h3")).size() > 0) { //urlÀÌ ³×°¡Áö·Î ³ª´µ¹Ç·Î ³İÁßÇÏ³ª Å¬¸¯
+				} else if (driver.findElements(By.xpath(url = "/html/body/div[7]/div/div[11]/div/div[2]/div[2]/div/div/div[1]/div/div[1]/div/a/h3")).size() > 0) { //urlì´ ë„¤ê°€ì§€ë¡œ ë‚˜ë‰˜ë¯€ë¡œ ë„·ì¤‘í•˜ë‚˜ í´ë¦­
 					click(url);
 				} else if (driver.findElements(By.xpath(url = "/html/body/div[7]/div/div[10]/div/div[2]/div[2]/div/div/div[2]/div/div[1]/div/a/h3")).size() > 0) {
 					click(url);
 				} else if (driver.findElements(By.xpath(url = "/html/body/div[7]/div/div[10]/div/div[2]/div[2]/div/div/div/div/div/div[1]/div/a/h3")).size() > 0) {
 					click(url);
-				} else { //°Ë»ö°á°ú°¡ ÇÏ³ªµµ ¾øÀ»°æ¿ì ÆĞ½º
+				} else { //ê²€ìƒ‰ê²°ê³¼ê°€ í•˜ë‚˜ë„ ì—†ì„ê²½ìš° íŒ¨ìŠ¤
 					continue;
 				}
 				Thread.sleep(1000);
 				try {
-					click("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/fieldset/div[4]/ul/li[3]/a"); //¸®ºäÅ¬¸¯
-				} catch (org.openqa.selenium.NoSuchElementException e) { //¸®ºäÅ¬¸¯ÀÌ ¾ÈµÈ´Ù¸é È£°»³ë³ë¿¡ ÆäÀÌÁö°¡ ¾ø´Â°ÍÀÌ¹Ç·Î ÆĞ½º
+					click("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/fieldset/div[4]/ul/li[3]/a"); //ë¦¬ë·°í´ë¦­
+				} catch (org.openqa.selenium.NoSuchElementException e) { //ë¦¬ë·°í´ë¦­ì´ ì•ˆëœë‹¤ë©´ í˜¸ê°±ë…¸ë…¸ì— í˜ì´ì§€ê°€ ì—†ëŠ”ê²ƒì´ë¯€ë¡œ íŒ¨ìŠ¤
 					continue;
 				}
 				Thread.sleep(2000);
 				try {
-					reviews = Integer.parseInt(getText("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[1]/div/fieldset/div[4]/ul/li[3]/a")); //¸®ºä°¹¼ö °¡Á®¿À±â
-					if (reviews < REVIEWS_MIN) { //¸®ºä°¹¼ö°¡ 50°³ ¹Ì¸¸ÀÎ°æ¿ì ÆĞ½º
+					reviews = Integer.parseInt(getText("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[1]/div/fieldset/div[4]/ul/li[3]/a")); //ë¦¬ë·°ê°¯ìˆ˜ ê°€ì ¸ì˜¤ê¸°
+					if (reviews < REVIEWS_MIN) { //ë¦¬ë·°ê°¯ìˆ˜ê°€ 50ê°œ ë¯¸ë§Œì¸ê²½ìš° íŒ¨ìŠ¤
 						continue;
 					}
-				} catch (NumberFormatException e) { //¸®ºä°¡ 0°³ÀÎ °æ¿ì Integer´ë½Å "ÀÌ¾ß±â"¶ó´Â StringÀÌ ¹Ş¾ÆÁö°í, ÀÌ·²°æ¿ì ÆĞ½º
+				} catch (NumberFormatException e) { //ë¦¬ë·°ê°€ 0ê°œì¸ ê²½ìš° IntegerëŒ€ì‹  "ì´ì•¼ê¸°"ë¼ëŠ” Stringì´ ë°›ì•„ì§€ê³ , ì´ëŸ´ê²½ìš° íŒ¨ìŠ¤
 					continue;
 				}
 				
@@ -188,7 +188,7 @@ public class Main {
 					continue;
 				}
 				
-				////////////////////////////////////////////////////////////////////¸®ºäÈ®ÀÎ
+				////////////////////////////////////////////////////////////////////ë¦¬ë·°í™•ì¸
 				
 				Robot r = new Robot();
 				r.mouseMove(600, 700);
@@ -196,8 +196,8 @@ public class Main {
 				r.mousePress(InputEvent.BUTTON2_DOWN_MASK);
 				Thread.sleep(100);
 				r.mouseMove(600, 1000);
-				url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[2]/div[2]/div/div[1]/div/div[" + Integer.toString(reviews + 1) + "]/div[1]/div[2]";	//Á¦ÀÏ¾Æ·¡´ñ±ÛÀÇ url	
-				while (true) { //Á¦ÀÏ ¾Æ·¡´ñ±ÛÀÌ ³ª¿Ã¶§±îÁö ½ºÅ©·ÑÇØ¼­ ¸ğµÎ ·Îµù½ÃÅ´
+				url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[2]/div[2]/div/div[1]/div/div[" + Integer.toString(reviews + 1) + "]/div[1]/div[2]";	//ì œì¼ì•„ë˜ëŒ“ê¸€ì˜ url	
+				while (true) { //ì œì¼ ì•„ë˜ëŒ“ê¸€ì´ ë‚˜ì˜¬ë•Œê¹Œì§€ ìŠ¤í¬ë¡¤í•´ì„œ ëª¨ë‘ ë¡œë”©ì‹œí‚´
 					try {
 						getText(url);
 						break;
@@ -207,41 +207,41 @@ public class Main {
 				}
 				r.mouseRelease(InputEvent.BUTTON2_DOWN_MASK);
 				
-				int PNew = 0; // ÃÖ±Ù 1³â°£ ±àÁ¤Àû Å°¿öµå ÃÑ°¹¼ö
-				int NNew = 0; // ÃÖ±Ù 1³â°£ ºÎÁ¤Àû Å°¿öµå ÃÑ°¹¼ö
-				int POld = 0; // 5³âÀÌ»ó ¿À·¡µÈ ±àÁ¤Àû Å°¿öµå ÃÑ°¹¼ö
-				int NOld = 0; // 5³âÀÌ»ó ¿À·¡µÈ ºÎÁ¤Àû Å°¿öµå ÃÑ°¹¼ö
-				for (int i = reviews + 1; i > 1; i--) { // ¸®ºä°ü·Ã µ¥ÀÌÅÍ ¼öÁı
+				int PNew = 0; // ìµœê·¼ 1ë…„ê°„ ê¸ì •ì  í‚¤ì›Œë“œ ì´ê°¯ìˆ˜
+				int NNew = 0; // ìµœê·¼ 1ë…„ê°„ ë¶€ì •ì  í‚¤ì›Œë“œ ì´ê°¯ìˆ˜
+				int POld = 0; // 5ë…„ì´ìƒ ì˜¤ë˜ëœ ê¸ì •ì  í‚¤ì›Œë“œ ì´ê°¯ìˆ˜
+				int NOld = 0; // 5ë…„ì´ìƒ ì˜¤ë˜ëœ ë¶€ì •ì  í‚¤ì›Œë“œ ì´ê°¯ìˆ˜
+				for (int i = reviews + 1; i > 1; i--) { // ë¦¬ë·°ê´€ë ¨ ë°ì´í„° ìˆ˜ì§‘
 					url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[2]/div[2]/div/div[1]/div/div[" + Integer.toString(i) + "]/div[1]/div[2]";
 						try {
-							click(url + "/a"); // ´õº¸±â ÀÖÀ¸¸é ´©¸£°í
+							click(url + "/a"); // ë”ë³´ê¸° ìˆìœ¼ë©´ ëˆ„ë¥´ê³ 
 							Thread.sleep(100);
 						} catch (Exception e) {
 							
 						}
-					String textReview = driver.findElement(By.xpath(url)).getText(); // ¸®ºä ÅØ½ºÆ®¸¦ ºÒ·¯¿È
+					String textReview = driver.findElement(By.xpath(url)).getText(); // ë¦¬ë·° í…ìŠ¤íŠ¸ë¥¼ ë¶ˆëŸ¬ì˜´
 					
 					url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[2]/div[2]/div/div[1]/div/div[" + Integer.toString(i) + "]/div[1]/div[3]";
-					String time = (getText(url).split("\n"))[0]; //timeÀº ¾ğÁ¦ ¸®ºä°¡ ÀûÇû´ÂÁö °¡Á®¿È. (e.g. "8´Ş Àü")
+					String time = (getText(url).split("\n"))[0]; //timeì€ ì–¸ì œ ë¦¬ë·°ê°€ ì í˜”ëŠ”ì§€ ê°€ì ¸ì˜´. (e.g. "8ë‹¬ ì „")
 					
-					if (time.contains("´Ş Àü") || time.contains("ÁÖ Àü") || time.contains("ÀÏ Àü") || time.contains("ÇÏ·ç Àü") || time.contains("½Ã°£ Àü")) { //recent posts
-						for (int j = 0; j < positive.size(); j++) { // ±àÁ¤Àû Å°¿öµå °¹¼ö°¡ ¸î°³ÀÎ°¡
+					if (time.contains("ë‹¬ ì „") || time.contains("ì£¼ ì „") || time.contains("ì¼ ì „") || time.contains("í•˜ë£¨ ì „") || time.contains("ì‹œê°„ ì „")) { //recent posts
+						for (int j = 0; j < positive.size(); j++) { // ê¸ì •ì  í‚¤ì›Œë“œ ê°¯ìˆ˜ê°€ ëª‡ê°œì¸ê°€
 							if (textReview.contains(positive.get(j))) {
 								PNew++;
 							}
 						}
-						for (int j = 0; j < negative.size(); j++) { // ºÎÁ¤Àû Å°¿öµå °¹¼ö°¡ ¸î°³ÀÎ°¡
+						for (int j = 0; j < negative.size(); j++) { // ë¶€ì •ì  í‚¤ì›Œë“œ ê°¯ìˆ˜ê°€ ëª‡ê°œì¸ê°€
 							if (textReview.contains(negative.get(j))) {
 								NNew++;
 							}
 						}
-					} else if (!(time.contains("ÀÏ³â") || time.contains("2³â") || time.contains("3³â") || time.contains("4³â"))) { //old posts (more than 5 years)
-						for (int j = 0; j < positive.size(); j++) { // ±àÁ¤Àû Å°¿öµå °¹¼ö°¡ ¸î°³ÀÎ°¡
+					} else if (!(time.contains("ì¼ë…„") || time.contains("2ë…„") || time.contains("3ë…„") || time.contains("4ë…„"))) { //old posts (more than 5 years)
+						for (int j = 0; j < positive.size(); j++) { // ê¸ì •ì  í‚¤ì›Œë“œ ê°¯ìˆ˜ê°€ ëª‡ê°œì¸ê°€
 							if (textReview.contains(positive.get(j))) {
 								POld++;
 							}
 						}
-						for (int j = 0; j < negative.size(); j++) { // ºÎÁ¤Àû Å°¿öµå °¹¼ö°¡ ¸î°³ÀÎ°¡
+						for (int j = 0; j < negative.size(); j++) { // ë¶€ì •ì  í‚¤ì›Œë“œ ê°¯ìˆ˜ê°€ ëª‡ê°œì¸ê°€
 							if (textReview.contains(negative.get(j))) {
 								NOld++;
 							}
@@ -250,24 +250,24 @@ public class Main {
 				}
 				
 				////////////////////////////////////////////////////////////////////prints the results
-				bw.write(address + "," + PriceIncrease + "%,"); //ÁÖ¼Ò, %·Î ¹Ù²Û °¡°İ»ó½ÂÀ²(¼Ò¼öÁ¡ 1ÀÚ¸®)
+				bw.write(address + "," + PriceIncrease + "%,"); //ì£¼ì†Œ, %ë¡œ ë°”ê¾¼ ê°€ê²©ìƒìŠ¹ìœ¨(ì†Œìˆ˜ì  1ìë¦¬)
 				
 				if (POld == 0 && NOld == 0) {
 					bw.write("No data,");
 				} else {
-					bw.write((float) (Math.round(1000 * (float)POld / (float)(POld + NOld)) / 10.0) + "%,"); //¿¾³¯ ¿©·Ğ, %·Î ¹Ù²ÛÈÄ ¼Ò¼öÁ¡1ÀÚ¸®±îÁö ¹İ¿Ã¸²
+					bw.write((float) (Math.round(1000 * (float)POld / (float)(POld + NOld)) / 10.0) + "%,"); //ì˜›ë‚  ì—¬ë¡ , %ë¡œ ë°”ê¾¼í›„ ì†Œìˆ˜ì 1ìë¦¬ê¹Œì§€ ë°˜ì˜¬ë¦¼
 				}
-				bw.write(POld + "," + NOld + ","); //¿¾³¯ ±àÁ¤Àû Å°¿öµå ¼ö, ºÎÁ¤Àû Å°¿öµå ¼ö
+				bw.write(POld + "," + NOld + ","); //ì˜›ë‚  ê¸ì •ì  í‚¤ì›Œë“œ ìˆ˜, ë¶€ì •ì  í‚¤ì›Œë“œ ìˆ˜
 				
 				if (PNew == 0 && NNew == 0) {
 					bw.write("No data,");
 				} else {
-					bw.write((float) (Math.round(1000 * (float)PNew / (float)(PNew + NNew)) / 10.0) + "%,"); //ÃÖ±Ù ¿©·Ğ, %·Î ¹Ù²ÛÈÄ ¼Ò¼öÁ¡1ÀÚ¸®±îÁö ¹İ¿Ã¸²
+					bw.write((float) (Math.round(1000 * (float)PNew / (float)(PNew + NNew)) / 10.0) + "%,"); //ìµœê·¼ ì—¬ë¡ , %ë¡œ ë°”ê¾¼í›„ ì†Œìˆ˜ì 1ìë¦¬ê¹Œì§€ ë°˜ì˜¬ë¦¼
 				}
-				bw.write(PNew + "," + NNew + ",");  //ÃÖ±Ù ±àÁ¤Àû Å°¿öµå ¼ö, ºÎÁ¤Àû Å°¿öµå ¼ö
+				bw.write(PNew + "," + NNew + ",");  //ìµœê·¼ ê¸ì •ì  í‚¤ì›Œë“œ ìˆ˜, ë¶€ì •ì  í‚¤ì›Œë“œ ìˆ˜
 				bw.write("\n");
 				cnt++;
-				System.out.println("****** " + cnt + " ¹øÂ° ÁÖ¼Ò ÀÛ¼ºÇÔ ******\n");
+				System.out.println("****** " + cnt + " ë²ˆì§¸ ì£¼ì†Œ ì‘ì„±í•¨ ******\n");
 			}
 			bw.close();
 			System.out.println("Finished");	
