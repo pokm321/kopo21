@@ -15,7 +15,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class Main {
+public class Crawling_욕세권 {
 	static WebDriver driver;
 	static int REVIEWS_MIN = 50; //데이터에 넣기위한 최소 리뷰갯수 기준
 	//////////// 클릭
@@ -111,7 +111,7 @@ public class Main {
 	//////////// 메인
 	public static void main(String[] args) {
 		try {
-			Main main = new Main();
+			Crawling_욕세권 main = new Crawling_욕세권();
 			BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\user\\Desktop\\Project\\Apt 2021.csv")); // 가져올 아파트 목록
 			File file = new File("C:\\Users\\user\\Desktop\\Project\\Result.csv"); // 결과를 입력할 파일
 			FileWriter fw = new FileWriter(file);
