@@ -2,6 +2,7 @@ package test;
  
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,7 +16,7 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class CrawlingApartmentPrices {
+public class MainBackup {
 	static BufferedReader br;
 	static BufferedWriter bw;
 	static WebDriver driver;
@@ -26,7 +27,7 @@ public class CrawlingApartmentPrices {
 	
 	static final int REVIEWS_MIN = 50; //데이터에 넣기위한 최소 리뷰갯수 기준
 	static final int KEYWORDS_MIN = 10; //데이터에 넣기위한 최소 일치 키워드 개수
-	static final float PRICE_INFO_MIN = 5.0f; // 최소 5년이상의 아파트 가격 데이터가 있어야함
+	static final int PRICE_INFO_MIN = 5; // 최소 5년이상의 아파트 가격 데이터가 있어야함
 	
 	// 긍정적, 부정적 키워드들
 	static ArrayList<String> positive = new ArrayList<String>(Arrays.asList("좋아요", "좋음", "좋네요", "좋습니다", "좋으며", " 편해요", " 편함", "아름다운", "멋진", "최고에요", "최고입니다", "끝내줍니다", "편리하고", "편리해요", "편리합니다", "조용하", "조용해", "조용합", "아늑", "저평가", "환상적", "시끄럽", "시끄러워", "예뻐", "예쁩니다"));
@@ -37,7 +38,7 @@ public class CrawlingApartmentPrices {
 	static String url;
 	static String address = "";
 	static boolean passOrNot;
-	static String[] lineArray;
+	static String[] array;
 	static int reviewNumber;
 	static int numOfReviews;
 	static float priceIncrease;
@@ -83,13 +84,13 @@ public class CrawlingApartmentPrices {
 			e.printStackTrace();
 		}
 	}
-		
+	
 	//////////// 현재 엑셀파일의 몇번째 줄을 읽고있는지 출력, 문자열을 배열에 넣기
 	private static void CurrentLineToArray() {
 		lineCnt++;
 		System.out.print("line" + lineCnt + "... ");
 		line = line.replace("\"", "");
-		lineArray = line.split(",");
+		array = line.split(",");
 	}
 	
 	//////////// 원하는 갯수만큼 문서의 줄을 건너뜀
@@ -104,6 +105,7 @@ public class CrawlingApartmentPrices {
 		}
 	}
 	
+	
 	//////////// 결과파일의 첫줄기록
 	private static void writeLabels() {
 		try {
@@ -115,12 +117,12 @@ public class CrawlingApartmentPrices {
 	
 	//////////// 중복되는 주소들 스킵
 	private static void checkDuplicate() {
-		if ((lineArray[0] + " " + lineArray[1]).equals(address)) {
-			address = (lineArray[0] + " " + lineArray[1]);
+		if ((array[0] + " " + array[1]).equals(address)) {
+			address = (array[0] + " " + array[1]);
 			System.out.println("중복되는 주소");
 			passOrNot = true;
 		} else {
-			address = (lineArray[0] + " " + lineArray[1]);
+			address = (array[0] + " " + array[1]);
 			passOrNot = false;
 		}
 	}
@@ -128,9 +130,9 @@ public class CrawlingApartmentPrices {
 	//////////// 주소열기
 	private static boolean openAddress() throws InterruptedException {
 			driver.get("https://www.google.com");
-			Thread.sleep((int)(Math.random() * 1000) + 500);
+			Thread.sleep(500);
 			driver.findElement(By.xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input")).sendKeys(address + " site:hogangnono.com" + Keys.ENTER); //구글검색
-			Thread.sleep((int)(Math.random() * 1000) + 500);
+			Thread.sleep(1000);
 			
 			if (driver.findElements(By.xpath(url = "/html/body/div[7]/div/div[10]/div/div[2]/div[2]/div/div/div[1]/div/div[1]/div/a/h3")).size() > 0) { //첫번째 검색결과 클릭하는데
 				click(url);
@@ -141,12 +143,11 @@ public class CrawlingApartmentPrices {
 			} else if (driver.findElements(By.xpath(url = "/html/body/div[7]/div/div[10]/div/div[2]/div[2]/div/div/div/div/div/div[1]/div/a/h3")).size() > 0) {
 				click(url);
 			} else { //검색결과가 하나도 없을경우 패스
-				Thread.sleep((int)(Math.random() * 1000) + 500);
 				System.out.println("검색결과 없음");
 				return passOrNot = true;
 			}
 		
-			Thread.sleep((int)(Math.random() * 1000) + 500);
+			Thread.sleep(1000);
 			return passOrNot = false;
 	}
 	
@@ -176,19 +177,20 @@ public class CrawlingApartmentPrices {
 		passOrNot = false;
 	}
 	
+	
 	//////////// 새로운 탭 닫기
 	private static void closeUnwantedWindow() {
-		if (driver.getWindowHandles().size() > 1) {
-			for(String windowHandle : driver.getWindowHandles()){ // 탭바꾸고
-			    driver.switchTo().window(windowHandle);
+			if (driver.getWindowHandles().size() > 1) {
+				for(String windowHandle : driver.getWindowHandles()){ // 탭바꾸고
+				    driver.switchTo().window(windowHandle);
+				}
+				
+				driver.close(); // 닫고
+				
+				for(String windowHandle : driver.getWindowHandles()){ // 다시 원래탭으로
+				    driver.switchTo().window(windowHandle);
+				}
 			}
-			
-			driver.close(); // 닫고
-			
-			for(String windowHandle : driver.getWindowHandles()){ // 다시 원래탭으로
-			    driver.switchTo().window(windowHandle);
-			}
-		}
 	}
 	
 	//////////// 최근,옛날 매매가격확인
@@ -206,20 +208,18 @@ public class CrawlingApartmentPrices {
 		
 		//제일 최근가격과 날짜 저장
 		String priceNewString = getText("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/div/div[1]/div[4]/div[2]/div[3]/table/tbody/tr[1]/td[2]");
-		String url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/div/div[1]/div[4]/div[2]/div[3]/table/tbody/tr[1]/td[1]";
-		float priceNewYear = Integer.parseInt((getText(url).split("\\."))[0]) + Integer.parseInt((getText(url).split("\\."))[1]) / 12;
+		int priceNewYear = Integer.parseInt((getText("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/div/div[1]/div[4]/div[2]/div[3]/table/tbody/tr[1]/td[1]").split("\\."))[0]);
 		//제일 옛날가격과 날짜 저장
 		int urlIndex = 0;
 		String priceOldString = "";
-		float priceOldYear = 0;
+		int priceOldYear = 0;
 		while(true) {
 			try {
 				urlIndex++;
 				getText("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/div/div[1]/div[4]/div[2]/div[3]/table/tbody/tr[" + Integer.toString(urlIndex) + "]/td[2]");
 			} catch (NoSuchElementException e) {
 				priceOldString = getText("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/div/div[1]/div[4]/div[2]/div[3]/table/tbody/tr[" + Integer.toString(urlIndex - 1) + "]/td[2]");
-				url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/div/div[1]/div[4]/div[2]/div[3]/table/tbody/tr[" + Integer.toString(urlIndex - 1) + "]/td[1]";
-				priceOldYear = Integer.parseInt((getText(url).split("\\."))[0]) + Integer.parseInt((getText(url).split("\\."))[1]) / 12;
+				priceOldYear = Integer.parseInt((getText("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/div/div[1]/div[4]/div[2]/div[3]/table/tbody/tr[" + Integer.toString(urlIndex - 1) + "]/td[1]").split("\\."))[0]);
 				break;
 			}
 		}
@@ -364,13 +364,12 @@ public class CrawlingApartmentPrices {
 			bw = new BufferedWriter(new FileWriter(resultFile)); // 결과를 입력할 파일
 			System.setProperty("webdriver.chrome.driver", chromeDriverFile);
 			driver = new ChromeDriver(); // 크롬 드라이버
-
+			
 			login(); //로그인
 			writeLabels(); // 결과파일의 첫줄 기록
 			skip(16); // 원하는 데이터가 17번째 줄부터 시작하므로 문서의 첫 16줄을 스킵함
 			
 			while ((line = br.readLine()) != null) { //엑셀파일에서 주소뽑아와서 호갱노노에서 데이터추출후 Result파일에 기록, 그걸 반복
-				
 				CurrentLineToArray();
 				
 				checkDuplicate(); // 중복주소인지 검사
@@ -388,24 +387,27 @@ public class CrawlingApartmentPrices {
 					continue;
 				}
 				
-				priceIncrease = getPriceIncrease(); // 연간 가격상승률 조사
+				priceIncrease = getPriceIncrease();
 				if (passOrNot == true) {
 					continue;
 				}
 				
-				countKeywords(); // 키워드 개수 조사
+				countKeywords();
 				if (passOrNot == true) {
 					continue;
 				}
 				
-				writeResult(); // 결과를 파일에 입력
+				writeResult();
 			}
 			
-			wrapUp(); // 종료
+			wrapUp();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
+	
+	
 	
 }
 
