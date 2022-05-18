@@ -20,9 +20,9 @@ public class CrawlingApartmentPrices {
 	static BufferedWriter bw;
 	static WebDriver driver;
 	
-	static String dataFile = "C:\\Users\\user\\Desktop\\Project\\Apt 2021.csv";
-	static String resultFile = "C:\\Users\\user\\Desktop\\Project\\Result.csv";
-	static String chromeDriverFile = "C:\\Selenium\\chromedriver.exe";
+	static String dataFile = "C:\\Eclipse-workspace\\Apt 2021.csv";
+	static String resultFile = "C:\\Eclipse-workspace\\Result.csv";
+	static String chromeDriverFile = "C:\\Eclipse-workspace\\chromedriver.exe";
 	
 	static final int REVIEWS_MIN = 50; //데이터에 넣기위한 최소 리뷰갯수 기준
 	static final int KEYWORDS_MIN = 10; //데이터에 넣기위한 최소 일치 키워드 개수
@@ -36,6 +36,7 @@ public class CrawlingApartmentPrices {
 	static int lineCnt = 0;
 	static String url;
 	static String address = "";
+	static String addressToSearch = "";
 	static boolean passOrNot;
 	static String[] lineArray;
 	static int reviewNumber;
@@ -66,18 +67,19 @@ public class CrawlingApartmentPrices {
 			System.out.println("로그인 중...");
 			driver.get("https://hogangnono.com/");
 			Thread.sleep(800);
-			driver.findElement(By.xpath("/html/body/div[2]/div/div[1]/div[2]/div[2]/a[2]")).click();
+			click("/html/body/div[2]/div/div[1]/div[2]/div[2]/a[2]");
 			Thread.sleep(500);
-			driver.findElement(By.xpath("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[3]/a")).click();
+			click("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[3]/a");
 			Thread.sleep(500);
-			driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[2]/div/div/div/div[1]/div[2]/span[3]/a")).click();
+			click("/html/body/div[2]/div/div[2]/div[2]/div/div/div/div[1]/div[2]/span[3]/a");
 			Thread.sleep(300);
 			driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[2]/div/div/div/div[2]/form/div[1]/input")).sendKeys("01038877826");
 			Thread.sleep(300);
 			driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[2]/div/div/div/div[2]/form/div[2]/input")).sendKeys("abcdefghij");
 			Thread.sleep(300);
-			driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[2]/div/div/div/div[2]/form/a")).click();
+			click("/html/body/div[2]/div/div[2]/div[2]/div/div/div/div[2]/form/a");
 			Thread.sleep(1000);
+			click("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[1]/a[1]/span");
 			System.out.println("로그인 완료");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,40 +116,44 @@ public class CrawlingApartmentPrices {
 	}
 	
 	//////////// 중복되는 주소들 스킵
-	private static void checkDuplicate() {
-		if ((lineArray[0] + " " + lineArray[1]).equals(address)) {
+	private static void checkDuplicate() throws InterruptedException {
+		if ((lineArray[0] + " " + lineArray[1]).equals(address)) { // 중복되는 경우
 			address = (lineArray[0] + " " + lineArray[1]);
 			System.out.println("중복되는 주소");
 			passOrNot = true;
-		} else {
-			address = (lineArray[0] + " " + lineArray[1]);
+		} else { // 중복안되는 경우
+			addressToSearch = (lineArray[0].split(" ")[2] + " " + lineArray[4]); // 검색할 주소 (아파트이름으로)
+			address = (lineArray[0] + " " + lineArray[1]); // 지번 주소
 			passOrNot = false;
 		}
+		Thread.sleep(500);
 	}
 	
 	//////////// 주소열기
 	private static boolean openAddress() throws InterruptedException {
-			driver.get("https://www.google.com");
-			Thread.sleep((int)(Math.random() * 1000) + 500);
-			driver.findElement(By.xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input")).sendKeys(address + " site:hogangnono.com" + Keys.ENTER); //구글검색
-			Thread.sleep((int)(Math.random() * 1000) + 500);
-			
-			if (driver.findElements(By.xpath(url = "/html/body/div[7]/div/div[10]/div/div[2]/div[2]/div/div/div[1]/div/div[1]/div/a/h3")).size() > 0) { //첫번째 검색결과 클릭하는데
-				click(url);
-			} else if (driver.findElements(By.xpath(url = "/html/body/div[7]/div/div[11]/div/div[2]/div[2]/div/div/div[1]/div/div[1]/div/a/h3")).size() > 0) { //url이 네가지로 나뉘므로 넷중하나 클릭
-				click(url);
-			} else if (driver.findElements(By.xpath(url = "/html/body/div[7]/div/div[10]/div/div[2]/div[2]/div/div/div[2]/div/div[1]/div/a/h3")).size() > 0) {
-				click(url);
-			} else if (driver.findElements(By.xpath(url = "/html/body/div[7]/div/div[10]/div/div[2]/div[2]/div/div/div/div/div/div[1]/div/a/h3")).size() > 0) {
-				click(url);
-			} else { //검색결과가 하나도 없을경우 패스
-				Thread.sleep((int)(Math.random() * 1000) + 500);
-				System.out.println("검색결과 없음");
-				return passOrNot = true;
-			}
+		String test = "abcd1234";
+		if (driver.findElements(By.xpath(url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/fieldset/div[1]/div/input")).size() > 0) {
+			driver.findElement(By.xpath(url)).sendKeys(Keys.CONTROL + "a" + Keys.BACK_SPACE); // 검색
+			driver.findElement(By.xpath(url)).sendKeys(addressToSearch + Keys.ENTER);
+		} else if (driver.findElements(By.xpath(url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[2]/fieldset/div/div[1]/input")).size() > 0) {
+			driver.findElement(By.xpath(url)).sendKeys(Keys.CONTROL + "a" + Keys.BACK_SPACE); // 검색
+			driver.findElement(By.xpath(url)).sendKeys(addressToSearch + Keys.ENTER);
+		} else if (driver.findElements(By.xpath(url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[1]/div/fieldset/div[1]/div/input")).size() > 0) {
+			driver.findElement(By.xpath(url)).sendKeys(Keys.CONTROL + "a" + Keys.BACK_SPACE); // 검색
+			driver.findElement(By.xpath(url)).sendKeys(addressToSearch + Keys.ENTER);
+		}
 		
-			Thread.sleep((int)(Math.random() * 1000) + 500);
+		Thread.sleep(2000);
+		click("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/div[1]/div[1]/ul/li[1]/a/div[1]");
+		Thread.sleep(2000);
+		
+		
+		if (getText("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/fieldset/div[3]").equals(address)) {
 			return passOrNot = false;
+		} else {
+			System.out.println("주소검색 실패");
+			return passOrNot = true;
+		}
 	}
 	
 	//////////// 리뷰갯수를 검사
@@ -370,7 +376,6 @@ public class CrawlingApartmentPrices {
 			skip(16); // 원하는 데이터가 17번째 줄부터 시작하므로 문서의 첫 16줄을 스킵함
 			
 			while ((line = br.readLine()) != null) { //엑셀파일에서 주소뽑아와서 호갱노노에서 데이터추출후 Result파일에 기록, 그걸 반복
-				
 				CurrentLineToArray();
 				
 				checkDuplicate(); // 중복주소인지 검사
@@ -378,7 +383,7 @@ public class CrawlingApartmentPrices {
 					continue;
 				}
 				
-				openAddress(); // 주소를 구글검색해서 사이트를 연다. 못열면 다음 주소로
+				openAddress(); // 주소를 검색, 해당 아파트의 페이지 열기
 				if (passOrNot == true) {
 					continue;
 				}
@@ -408,4 +413,3 @@ public class CrawlingApartmentPrices {
 	}
 	
 }
-
