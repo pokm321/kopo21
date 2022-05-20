@@ -24,13 +24,13 @@ public class CrawlingApartmentPrices {
 	static String resultFile = "C:\\Eclipse-workspace\\Result.csv";
 	static String chromeDriverFile = "C:\\Eclipse-workspace\\chromedriver.exe";
 	
-	static final int REVIEWS_MIN = 50; //µ¥ÀÌÅÍ¿¡ ³Ö±âÀ§ÇÑ ÃÖ¼Ò ¸®ºä°¹¼ö ±âÁØ
-	static final int KEYWORDS_MIN = 10; //µ¥ÀÌÅÍ¿¡ ³Ö±âÀ§ÇÑ ÃÖ¼Ò ÀÏÄ¡ Å°¿öµå °³¼ö
-	static final float PRICE_INFO_MIN = 5.0f; // ÃÖ¼Ò 5³âÀÌ»óÀÇ ¾ÆÆÄÆ® °¡°İ µ¥ÀÌÅÍ°¡ ÀÖ¾î¾ßÇÔ
+	static final int REVIEWS_MIN = 50; //ë°ì´í„°ì— ë„£ê¸°ìœ„í•œ ìµœì†Œ ë¦¬ë·°ê°¯ìˆ˜ ê¸°ì¤€
+	static final int KEYWORDS_MIN = 10; //ë°ì´í„°ì— ë„£ê¸°ìœ„í•œ ìµœì†Œ ì¼ì¹˜ í‚¤ì›Œë“œ ê°œìˆ˜
+	static final float PRICE_INFO_MIN = 5.0f; // ìµœì†Œ 5ë…„ì´ìƒì˜ ì•„íŒŒíŠ¸ ê°€ê²© ë°ì´í„°ê°€ ìˆì–´ì•¼í•¨
 	
-	// ±àÁ¤Àû, ºÎÁ¤Àû Å°¿öµåµé
-	static ArrayList<String> positive = new ArrayList<String>(Arrays.asList("ÁÁ¾Æ¿ä", "ÁÁÀ½", "ÁÁ³×¿ä", "ÁÁ½À´Ï´Ù", "ÁÁÀ¸¸ç", " ÆíÇØ¿ä", " ÆíÇÔ", "¾Æ¸§´Ù¿î", "¸ÚÁø", "ÃÖ°í¿¡¿ä", "ÃÖ°íÀÔ´Ï´Ù", "³¡³»Áİ´Ï´Ù", "Æí¸®ÇÏ°í", "Æí¸®ÇØ¿ä", "Æí¸®ÇÕ´Ï´Ù", "Á¶¿ëÇÏ", "Á¶¿ëÇØ", "Á¶¿ëÇÕ", "¾Æ´Á", "ÀúÆò°¡", "È¯»óÀû", "½Ã²ô·´", "½Ã²ô·¯¿ö", "¿¹»µ", "¿¹»Ş´Ï´Ù"));
-	static ArrayList<String> negative = new ArrayList<String>(Arrays.asList("ºÒÆíÇØ¿ä", "ºÒÆíÇÕ´Ï´Ù", "ÈìÀÔ´Ï´Ù", "ÈìÀÌ¿¡¿ä", "³ªºü¿ä", "³ª»Ş´Ï´Ù", "¾ÈÁÁ", "¾È ÁÁ", "ÁÁÁö¸ø", "ÁÁÁö ¸ø", "¸Ö¾î¿ä", "ÄèÀûÇØ¿ä", "ÄèÀûÇÕ´Ï´Ù", "³ëÈÄÈ­", "½É°¢ÇÔ", "½É°¢ÇÕ´Ï´Ù", "½É°¢ÇØ¿ä", "ÁÖÂ÷¹®Á¦", "ÁÖÂ÷³­", "½Ã²ô·¯¿ö¿ä", "½Ã²ô·´½À´Ï", "ºÎÁ·ÇØ¿ä", "ºÎÁ·ÇÕ´Ï´Ù", "¾î·Á¿ö¿ä", "¾î·Æ½À´Ï´Ù", "ÃÖ¾ÇÀÔ", "ÃÖ¾ÇÀÓ", "ÃÖ¾ÇÀÌ¿¡¿ä", "²ûÂïÇÕ", "²ûÂïÇÔ", "²ûÂïÇØ¿ä", "Ãş°£¼ÒÀ½", "Ãş°£ ¼ÒÀ½", "½ºÆ®·¹½º", "°íÆò°¡", "½ÉÇÔ", "½ÉÇÕ"));
+	// ê¸ì •ì , ë¶€ì •ì  í‚¤ì›Œë“œë“¤
+	static ArrayList<String> positive = new ArrayList<String>(Arrays.asList("ì¢‹ì•„ìš”", "ì¢‹ìŒ", "ì¢‹ë„¤ìš”", "ì¢‹ìŠµë‹ˆë‹¤", "ì¢‹ìœ¼ë©°", " í¸í•´ìš”", " í¸í•¨", "ì•„ë¦„ë‹¤ìš´", "ë©‹ì§„", "ìµœê³ ì—ìš”", "ìµœê³ ì…ë‹ˆë‹¤", "ëë‚´ì¤ë‹ˆë‹¤", "í¸ë¦¬í•˜ê³ ", "í¸ë¦¬í•´ìš”", "í¸ë¦¬í•©ë‹ˆë‹¤", "ì¡°ìš©í•˜", "ì¡°ìš©í•´", "ì¡°ìš©í•©", "ì•„ëŠ‘", "ì €í‰ê°€", "í™˜ìƒì ", "ì‹œë„ëŸ½", "ì‹œë„ëŸ¬ì›Œ", "ì˜ˆë»", "ì˜ˆì©ë‹ˆë‹¤"));
+	static ArrayList<String> negative = new ArrayList<String>(Arrays.asList("ë¶ˆí¸í•´ìš”", "ë¶ˆí¸í•©ë‹ˆë‹¤", "í ì…ë‹ˆë‹¤", "í ì´ì—ìš”", "ë‚˜ë¹ ìš”", "ë‚˜ì©ë‹ˆë‹¤", "ì•ˆì¢‹", "ì•ˆ ì¢‹", "ì¢‹ì§€ëª»", "ì¢‹ì§€ ëª»", "ë©€ì–´ìš”", "ì¾Œì í•´ìš”", "ì¾Œì í•©ë‹ˆë‹¤", "ë…¸í›„í™”", "ì‹¬ê°í•¨", "ì‹¬ê°í•©ë‹ˆë‹¤", "ì‹¬ê°í•´ìš”", "ì£¼ì°¨ë¬¸ì œ", "ì£¼ì°¨ë‚œ", "ì‹œë„ëŸ¬ì›Œìš”", "ì‹œë„ëŸ½ìŠµë‹ˆ", "ë¶€ì¡±í•´ìš”", "ë¶€ì¡±í•©ë‹ˆë‹¤", "ì–´ë ¤ì›Œìš”", "ì–´ë µìŠµë‹ˆë‹¤", "ìµœì•…ì…", "ìµœì•…ì„", "ìµœì•…ì´ì—ìš”", "ë”ì°í•©", "ë”ì°í•¨", "ë”ì°í•´ìš”", "ì¸µê°„ì†ŒìŒ", "ì¸µê°„ ì†ŒìŒ", "ìŠ¤íŠ¸ë ˆìŠ¤", "ê³ í‰ê°€", "ì‹¬í•¨", "ì‹¬í•©"));
 	
 	static String line;
 	static int lineCnt = 0;
@@ -44,27 +44,27 @@ public class CrawlingApartmentPrices {
 	static float priceIncrease;
 	static int recordedAddressCount = 0;
 	
-	static final int POSITIVE_NEW = 0; // ÃÖ±Ù 1³â°£ ±àÁ¤Àû Å°¿öµå ÃÑ°¹¼ö (ÀÎµ¦½º)
-	static final int NEGATIVE_NEW = 1; // ÃÖ±Ù 1³â°£ ºÎÁ¤Àû Å°¿öµå ÃÑ°¹¼ö (ÀÎµ¦½º)
-	static final int POSITIVE_OLD = 2; // 5³âÀÌ»ó ¿À·¡µÈ ±àÁ¤Àû Å°¿öµå ÃÑ°¹¼ö (ÀÎµ¦½º)
-	static final int NEGATVIE_OLD = 3; // 5³âÀÌ»ó ¿À·¡µÈ ºÎÁ¤Àû Å°¿öµå ÃÑ°¹¼ö (ÀÎµ¦½º)
-	static int[] numberOfKeywords = new int[4]; // À§ 4°³ÀÇ °ªÀ» ÀúÀåÇÒ ¹è¿­
+	static final int POSITIVE_NEW = 0; // ìµœê·¼ 1ë…„ê°„ ê¸ì •ì  í‚¤ì›Œë“œ ì´ê°¯ìˆ˜ (ì¸ë±ìŠ¤)
+	static final int NEGATIVE_NEW = 1; // ìµœê·¼ 1ë…„ê°„ ë¶€ì •ì  í‚¤ì›Œë“œ ì´ê°¯ìˆ˜ (ì¸ë±ìŠ¤)
+	static final int POSITIVE_OLD = 2; // 5ë…„ì´ìƒ ì˜¤ë˜ëœ ê¸ì •ì  í‚¤ì›Œë“œ ì´ê°¯ìˆ˜ (ì¸ë±ìŠ¤)
+	static final int NEGATVIE_OLD = 3; // 5ë…„ì´ìƒ ì˜¤ë˜ëœ ë¶€ì •ì  í‚¤ì›Œë“œ ì´ê°¯ìˆ˜ (ì¸ë±ìŠ¤)
+	static int[] numberOfKeywords = new int[4]; // ìœ„ 4ê°œì˜ ê°’ì„ ì €ì¥í•  ë°°ì—´
 	
-	//////////// Å¬¸¯
+	//////////// í´ë¦­
 	private static void click(String a) {
 		driver.findElement(By.xpath(a)).click();
 	}
 	
-	//////////// ÅØ½ºÆ® °¡Á®¿À±â
+	//////////// í…ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
 	private static String getText(String a) {
 		String text = driver.findElement(By.xpath(a)).getText();
 		return text;
 	}
 	
-	//////////// ·Î±×ÀÎ
+	//////////// ë¡œê·¸ì¸
 	private static void login() {
 		try {
-			System.out.println("·Î±×ÀÎ Áß...");
+			System.out.println("ë¡œê·¸ì¸ ì¤‘...");
 			driver.get("https://hogangnono.com/");
 			Thread.sleep(800);
 			click("/html/body/div[2]/div/div[1]/div[2]/div[2]/a[2]");
@@ -80,13 +80,13 @@ public class CrawlingApartmentPrices {
 			click("/html/body/div[2]/div/div[2]/div[2]/div/div/div/div[2]/form/a");
 			Thread.sleep(1000);
 			click("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[1]/a[1]/span");
-			System.out.println("·Î±×ÀÎ ¿Ï·á");
+			System.out.println("ë¡œê·¸ì¸ ì™„ë£Œ");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 		
-	//////////// ÇöÀç ¿¢¼¿ÆÄÀÏÀÇ ¸î¹øÂ° ÁÙÀ» ÀĞ°íÀÖ´ÂÁö Ãâ·Â, ¹®ÀÚ¿­À» ¹è¿­¿¡ ³Ö±â
+	//////////// í˜„ì¬ ì—‘ì…€íŒŒì¼ì˜ ëª‡ë²ˆì§¸ ì¤„ì„ ì½ê³ ìˆëŠ”ì§€ ì¶œë ¥, ë¬¸ìì—´ì„ ë°°ì—´ì— ë„£ê¸°
 	private static void CurrentLineToArray() {
 		lineCnt++;
 		System.out.print("line" + lineCnt + "... ");
@@ -94,7 +94,7 @@ public class CrawlingApartmentPrices {
 		lineArray = line.split(",");
 	}
 	
-	//////////// ¿øÇÏ´Â °¹¼ö¸¸Å­ ¹®¼­ÀÇ ÁÙÀ» °Ç³Ê¶Ü
+	//////////// ì›í•˜ëŠ” ê°¯ìˆ˜ë§Œí¼ ë¬¸ì„œì˜ ì¤„ì„ ê±´ë„ˆëœ€
 	private static void skip(int a) {
 		for (int i = 0; i < a; i++) {
 			try {
@@ -106,40 +106,40 @@ public class CrawlingApartmentPrices {
 		}
 	}
 	
-	//////////// °á°úÆÄÀÏÀÇ Ã¹ÁÙ±â·Ï
+	//////////// ê²°ê³¼íŒŒì¼ì˜ ì²«ì¤„ê¸°ë¡
 	private static void writeLabels() {
 		try {
-			bw.write("ÁÖ¼Ò,¸Å³â °¡°İÁõ°¡À²(%/year),¿¾³¯ ¿©·Ğ(±àÁ¤Àû/ÀüÃ¼),¿¾³¯ ±àÁ¤Àû,¿¾³¯ ºÎÁ¤Àû,ÃÖ±Ù ¿©·Ğ(±àÁ¤Àû/ÀüÃ¼),ÃÖ±Ù ±àÁ¤Àû,ÃÖ±Ù ºÎÁ¤Àû\n");
+			bw.write("ì£¼ì†Œ,ë§¤ë…„ ê°€ê²©ì¦ê°€ìœ¨(%/year),ì˜›ë‚  ì—¬ë¡ (ê¸ì •ì /ì „ì²´),ì˜›ë‚  ê¸ì •ì ,ì˜›ë‚  ë¶€ì •ì ,ìµœê·¼ ì—¬ë¡ (ê¸ì •ì /ì „ì²´),ìµœê·¼ ê¸ì •ì ,ìµœê·¼ ë¶€ì •ì \n");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	//////////// Áßº¹µÇ´Â ÁÖ¼Òµé ½ºÅµ
+	//////////// ì¤‘ë³µë˜ëŠ” ì£¼ì†Œë“¤ ìŠ¤í‚µ
 	private static void checkDuplicate() throws InterruptedException {
-		if ((lineArray[0] + " " + lineArray[1]).equals(address)) { // Áßº¹µÇ´Â °æ¿ì
+		if ((lineArray[0] + " " + lineArray[1]).equals(address)) { // ì¤‘ë³µë˜ëŠ” ê²½ìš°
 			address = (lineArray[0] + " " + lineArray[1]);
-			System.out.println("Áßº¹µÇ´Â ÁÖ¼Ò");
+			System.out.println("ì¤‘ë³µë˜ëŠ” ì£¼ì†Œ");
 			passOrNot = true;
-		} else { // Áßº¹¾ÈµÇ´Â °æ¿ì
-			addressToSearch = (lineArray[0].split(" ")[2] + " " + lineArray[4]); // °Ë»öÇÒ ÁÖ¼Ò (¾ÆÆÄÆ®ÀÌ¸§À¸·Î)
-			address = (lineArray[0] + " " + lineArray[1]); // Áö¹ø ÁÖ¼Ò
+		} else { // ì¤‘ë³µì•ˆë˜ëŠ” ê²½ìš°
+			addressToSearch = (lineArray[0].split(" ")[2] + " " + lineArray[4]); // ê²€ìƒ‰í•  ì£¼ì†Œ (ì•„íŒŒíŠ¸ì´ë¦„ìœ¼ë¡œ)
+			address = (lineArray[0] + " " + lineArray[1]); // ì§€ë²ˆ ì£¼ì†Œ
 			passOrNot = false;
 		}
 		Thread.sleep(500);
 	}
 	
-	//////////// ÁÖ¼Ò¿­±â
+	//////////// ì£¼ì†Œì—´ê¸°
 	private static boolean openAddress() throws InterruptedException {
 		String test = "abcd1234";
 		if (driver.findElements(By.xpath(url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/fieldset/div[1]/div/input")).size() > 0) {
-			driver.findElement(By.xpath(url)).sendKeys(Keys.CONTROL + "a" + Keys.BACK_SPACE); // °Ë»ö
+			driver.findElement(By.xpath(url)).sendKeys(Keys.CONTROL + "a" + Keys.BACK_SPACE); // ê²€ìƒ‰
 			driver.findElement(By.xpath(url)).sendKeys(addressToSearch + Keys.ENTER);
 		} else if (driver.findElements(By.xpath(url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[2]/fieldset/div/div[1]/input")).size() > 0) {
-			driver.findElement(By.xpath(url)).sendKeys(Keys.CONTROL + "a" + Keys.BACK_SPACE); // °Ë»ö
+			driver.findElement(By.xpath(url)).sendKeys(Keys.CONTROL + "a" + Keys.BACK_SPACE); // ê²€ìƒ‰
 			driver.findElement(By.xpath(url)).sendKeys(addressToSearch + Keys.ENTER);
 		} else if (driver.findElements(By.xpath(url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[1]/div/fieldset/div[1]/div/input")).size() > 0) {
-			driver.findElement(By.xpath(url)).sendKeys(Keys.CONTROL + "a" + Keys.BACK_SPACE); // °Ë»ö
+			driver.findElement(By.xpath(url)).sendKeys(Keys.CONTROL + "a" + Keys.BACK_SPACE); // ê²€ìƒ‰
 			driver.findElement(By.xpath(url)).sendKeys(addressToSearch + Keys.ENTER);
 		}
 		
@@ -151,30 +151,30 @@ public class CrawlingApartmentPrices {
 		if (getText("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/fieldset/div[3]").equals(address)) {
 			return passOrNot = false;
 		} else {
-			System.out.println("ÁÖ¼Ò°Ë»ö ½ÇÆĞ");
+			System.out.println("ì£¼ì†Œê²€ìƒ‰ ì‹¤íŒ¨");
 			return passOrNot = true;
 		}
 	}
 	
-	//////////// ¸®ºä°¹¼ö¸¦ °Ë»ç
+	//////////// ë¦¬ë·°ê°¯ìˆ˜ë¥¼ ê²€ì‚¬
 	private static void checkReviewNumbers() throws InterruptedException {
 		try {
-			click("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/fieldset/div[4]/ul/li[3]/a"); //¸®ºäÅ¬¸¯
-		} catch (org.openqa.selenium.NoSuchElementException e) { //¸®ºäÅ¬¸¯ÀÌ ¾ÈµÈ´Ù¸é È£°»³ë³ë¿¡ ÆäÀÌÁö°¡ ¾ø´Â°ÍÀÌ¹Ç·Î ÆĞ½º
-			System.out.println("ÆäÀÌÁö ¾øÀ½");
+			click("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/fieldset/div[4]/ul/li[3]/a"); //ë¦¬ë·°í´ë¦­
+		} catch (org.openqa.selenium.NoSuchElementException e) { //ë¦¬ë·°í´ë¦­ì´ ì•ˆëœë‹¤ë©´ í˜¸ê°±ë…¸ë…¸ì— í˜ì´ì§€ê°€ ì—†ëŠ”ê²ƒì´ë¯€ë¡œ íŒ¨ìŠ¤
+			System.out.println("í˜ì´ì§€ ì—†ìŒ");
 			passOrNot = true;
 			return;
 		}
 		Thread.sleep(2000);
 		try {
-			numOfReviews = Integer.parseInt(getText("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[1]/div/fieldset/div[4]/ul/li[3]/a")); //¸®ºä°¹¼ö °¡Á®¿À±â
-			if (numOfReviews < REVIEWS_MIN) { //¸®ºä °³¼ö°¡ 50°³ ¹Ì¸¸ÀÎ°æ¿ì ÆĞ½º
-				System.out.println("¸®ºä °³¼ö ºÎÁ·");
+			numOfReviews = Integer.parseInt(getText("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[1]/div/fieldset/div[4]/ul/li[3]/a")); //ë¦¬ë·°ê°¯ìˆ˜ ê°€ì ¸ì˜¤ê¸°
+			if (numOfReviews < REVIEWS_MIN) { //ë¦¬ë·° ê°œìˆ˜ê°€ 50ê°œ ë¯¸ë§Œì¸ê²½ìš° íŒ¨ìŠ¤
+				System.out.println("ë¦¬ë·° ê°œìˆ˜ ë¶€ì¡±");
 				passOrNot = true;
 				return;
 			}
-		} catch (NumberFormatException e) { //¸®ºä°¡ 0°³ÀÎ °æ¿ì Integer´ë½Å "ÀÌ¾ß±â"¶ó´Â StringÀÌ ¹Ş¾ÆÁö°í, ÀÌ·²°æ¿ì ÆĞ½º
-			System.out.println("¸®ºä °³¼ö ºÎÁ·");
+		} catch (NumberFormatException e) { //ë¦¬ë·°ê°€ 0ê°œì¸ ê²½ìš° IntegerëŒ€ì‹  "ì´ì•¼ê¸°"ë¼ëŠ” Stringì´ ë°›ì•„ì§€ê³ , ì´ëŸ´ê²½ìš° íŒ¨ìŠ¤
+			System.out.println("ë¦¬ë·° ê°œìˆ˜ ë¶€ì¡±");
 			passOrNot = true;
 			return;
 		}
@@ -182,39 +182,41 @@ public class CrawlingApartmentPrices {
 		passOrNot = false;
 	}
 	
-	//////////// »õ·Î¿î ÅÇ ´İ±â
+	//////////// ìƒˆë¡œìš´ íƒ­ ë‹«ê¸°
 	private static void closeUnwantedWindow() {
 		if (driver.getWindowHandles().size() > 1) {
-			for(String windowHandle : driver.getWindowHandles()){ // ÅÇ¹Ù²Ù°í
+			for(String windowHandle : driver.getWindowHandles()){ // íƒ­ë°”ê¾¸ê³ 
 			    driver.switchTo().window(windowHandle);
 			}
 			
-			driver.close(); // ´İ°í
+			driver.close(); // ë‹«ê³ 
 			
-			for(String windowHandle : driver.getWindowHandles()){ // ´Ù½Ã ¿ø·¡ÅÇÀ¸·Î
+			for(String windowHandle : driver.getWindowHandles()){ // ë‹¤ì‹œ ì›ë˜íƒ­ìœ¼ë¡œ
 			    driver.switchTo().window(windowHandle);
 			}
 		}
 	}
 	
-	//////////// ÃÖ±Ù,¿¾³¯ ¸Å¸Å°¡°İÈ®ÀÎ
+	//////////// ìµœê·¼,ì˜›ë‚  ë§¤ë§¤ê°€ê²©í™•ì¸
 	private static float getPriceIncrease() throws InterruptedException {
 		
-		// µÉ¶§±îÁö ´õº¸±â Å¬¸¯ ¹İº¹
+		// ë ë•Œê¹Œì§€ ë”ë³´ê¸° í´ë¦­ ë°˜ë³µ
 		while(true) {
 			try {
 				click("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[1]/div/div/div[1]/div[4]/div[2]/div[3]/a/div");
 				Thread.sleep(500);
 			} catch (NoSuchElementException e) {
 				break;
+			} catch (ElementClickInterceptedException e) {
+				Thread.sleep(500);
 			}
 		}
 		
-		//Á¦ÀÏ ÃÖ±Ù°¡°İ°ú ³¯Â¥ ÀúÀå
+		//ì œì¼ ìµœê·¼ê°€ê²©ê³¼ ë‚ ì§œ ì €ì¥
 		String priceNewString = getText("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/div/div[1]/div[4]/div[2]/div[3]/table/tbody/tr[1]/td[2]");
 		String url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div/div/div/div[1]/div[4]/div[2]/div[3]/table/tbody/tr[1]/td[1]";
 		float priceNewYear = Integer.parseInt((getText(url).split("\\."))[0]) + Integer.parseInt((getText(url).split("\\."))[1]) / 12;
-		//Á¦ÀÏ ¿¾³¯°¡°İ°ú ³¯Â¥ ÀúÀå
+		//ì œì¼ ì˜›ë‚ ê°€ê²©ê³¼ ë‚ ì§œ ì €ì¥
 		int urlIndex = 0;
 		String priceOldString = "";
 		float priceOldYear = 0;
@@ -230,15 +232,15 @@ public class CrawlingApartmentPrices {
 			}
 		}
 		
-		// ÃÖ¼Ò 3³âÀÌ»ó °¡°İ Á¤º¸°¡ ÀÖ¾î¾ß ÇÑ´Ù.
+		// ìµœì†Œ 3ë…„ì´ìƒ ê°€ê²© ì •ë³´ê°€ ìˆì–´ì•¼ í•œë‹¤.
 		if (priceNewYear - priceOldYear < PRICE_INFO_MIN) {
-			System.out.println("°¡°İ Á¤º¸ ºÎÁ·");
+			System.out.println("ê°€ê²© ì •ë³´ ë¶€ì¡±");
 			passOrNot = true;
 			return 0;
 		}
 		
-		// 9¾ï 5,000 ÇüÅÂ¸¦ 95000À¸·Î º¯È¯
-		priceNewString = priceNewString.replace("¾ï", "0000").replace(",", "");
+		// 9ì–µ 5,000 í˜•íƒœë¥¼ 95000ìœ¼ë¡œ ë³€í™˜
+		priceNewString = priceNewString.replace("ì–µ", "0000").replace(",", "");
 		float priceNew = 0;
 		String[] arrayTemp = priceNewString.split(" ");
 		int i = 0;
@@ -246,29 +248,29 @@ public class CrawlingApartmentPrices {
 			priceNew += Integer.parseInt(arrayTemp[i]);
 		}
 		
-		priceOldString = priceOldString.replace("¾ï", "0000").replace(",", "");
+		priceOldString = priceOldString.replace("ì–µ", "0000").replace(",", "");
 		float priceOld = 0;
 		arrayTemp = priceOldString.split(" ");
 		for (i = 0; i < arrayTemp.length; i++) {
 			priceOld += Integer.parseInt(arrayTemp[i]);
 		}
 		
-		//ÇöÀç°¡°İÀÌ ¿¾³¯°¡°İ ´ëºñ ¸Å³â Æò±Õ ¸î% ¿Ã¶ú´Â°¡
-		float priceIncrease = (float) Math.pow((priceNew / priceOld), 1.0 / (priceNewYear - priceOldYear)); // º¹¸®·Î °è»ê
-		priceIncrease = (float) ((Math.round(1000 * priceIncrease) / 10.0) - 100); //100À» °öÇØ¼­ %´ÜÀ§·Î ¹Ù²Ù°í, ¼Ò¼öÁ¡ ÇÑÀÚ¸®±îÁö ¹İ¿Ã¸²
+		//í˜„ì¬ê°€ê²©ì´ ì˜›ë‚ ê°€ê²© ëŒ€ë¹„ ë§¤ë…„ í‰ê·  ëª‡% ì˜¬ëëŠ”ê°€
+		float priceIncrease = (float) Math.pow((priceNew / priceOld), 1.0 / (priceNewYear - priceOldYear)); // ë³µë¦¬ë¡œ ê³„ì‚°
+		priceIncrease = (float) ((Math.round(1000 * priceIncrease) / 10.0) - 100); //100ì„ ê³±í•´ì„œ %ë‹¨ìœ„ë¡œ ë°”ê¾¸ê³ , ì†Œìˆ˜ì  í•œìë¦¬ê¹Œì§€ ë°˜ì˜¬ë¦¼
 		
 		passOrNot = false;
 		return priceIncrease;
 	}
 	
-	//////////// ¸®ºäÈ®ÀÎ
+	//////////// ë¦¬ë·°í™•ì¸
 	public static void countKeywords() throws InterruptedException {
 		String reviewText = "";
-		for (reviewNumber = 2; reviewNumber <= numOfReviews + 1; reviewNumber++) { // ¸®ºä°ü·Ã µ¥ÀÌÅÍ ¼öÁı
+		for (reviewNumber = 2; reviewNumber <= numOfReviews + 1; reviewNumber++) { // ë¦¬ë·°ê´€ë ¨ ë°ì´í„° ìˆ˜ì§‘
 			url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[2]/div[2]/div/div[1]/div/div[" + Integer.toString(reviewNumber) + "]/div[1]/div[2]"; 
 			
 			try {
-				click(url + "/a"); // ±ä ´ñ±ÛÀÇ ´õº¸±â¹öÆ° Å¬¸¯
+				click(url + "/a"); // ê¸´ ëŒ“ê¸€ì˜ ë”ë³´ê¸°ë²„íŠ¼ í´ë¦­
 				Thread.sleep(100);
 			} catch (NoSuchElementException e) {
 	
@@ -280,42 +282,42 @@ public class CrawlingApartmentPrices {
 	
 			while (true) {
 				try {
-					reviewText = getText(url); // ¸®ºä ÅØ½ºÆ®¸¦ ºÒ·¯¿È
+					reviewText = getText(url); // ë¦¬ë·° í…ìŠ¤íŠ¸ë¥¼ ë¶ˆëŸ¬ì˜´
 					break;
 				} catch (NoSuchElementException e) {
 					try {
-						click("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[2]/div[2]/div/div[1]/a"); // ¾ÈºÒ·¯¿ÍÁö¸é ¹Ø¿¡ ´ñ±Û ´õ ·ÎµåÇÏ´Â ¹öÆ° Å¬¸¯
+						click("/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[2]/div[2]/div/div[1]/a"); // ì•ˆë¶ˆëŸ¬ì™€ì§€ë©´ ë°‘ì— ëŒ“ê¸€ ë” ë¡œë“œí•˜ëŠ” ë²„íŠ¼ í´ë¦­
 					} catch (StaleElementReferenceException f) {
 			
 					}
 					
-					while (driver.findElements(By.xpath(url)).size() == 0) { // ·ÎµùµÉ¶§±îÁö ±â´Ù¸²
+					while (driver.findElements(By.xpath(url)).size() == 0) { // ë¡œë”©ë ë•Œê¹Œì§€ ê¸°ë‹¤ë¦¼
 						Thread.sleep(500);
 					}
 				}
 			}
 			
 			url = "/html/body/div[2]/div/div[1]/div[1]/div[3]/div/div[4]/div[2]/div[2]/div/div[1]/div/div[" + Integer.toString(reviewNumber) + "]/div[1]/div[3]";
-			String time = (getText(url).split("\n"))[0]; //timeÀº ¾ğÁ¦ ¸®ºä°¡ ÀûÇû´ÂÁö °¡Á®¿È. (e.g. "8´Ş Àü")
+			String time = (getText(url).split("\n"))[0]; //timeì€ ì–¸ì œ ë¦¬ë·°ê°€ ì í˜”ëŠ”ì§€ ê°€ì ¸ì˜´. (e.g. "8ë‹¬ ì „")
 			
-			if (time.contains("´Ş Àü") || time.contains("ÁÖ Àü") || time.contains("ÀÏ Àü") || time.contains("ÇÏ·ç Àü") || time.contains("½Ã°£ Àü")) { // recent posts
-				for (int j = 0; j < positive.size(); j++) { // ±àÁ¤Àû Å°¿öµå °¹¼ö°¡ ¸î°³ÀÎ°¡
+			if (time.contains("ë‹¬ ì „") || time.contains("ì£¼ ì „") || time.contains("ì¼ ì „") || time.contains("í•˜ë£¨ ì „") || time.contains("ì‹œê°„ ì „")) { // recent posts
+				for (int j = 0; j < positive.size(); j++) { // ê¸ì •ì  í‚¤ì›Œë“œ ê°¯ìˆ˜ê°€ ëª‡ê°œì¸ê°€
 					if (reviewText.contains(positive.get(j))) {
 						numberOfKeywords[POSITIVE_NEW]++;
 					}
 				}
-				for (int j = 0; j < negative.size(); j++) { // ºÎÁ¤Àû Å°¿öµå °¹¼ö°¡ ¸î°³ÀÎ°¡
+				for (int j = 0; j < negative.size(); j++) { // ë¶€ì •ì  í‚¤ì›Œë“œ ê°¯ìˆ˜ê°€ ëª‡ê°œì¸ê°€
 					if (reviewText.contains(negative.get(j))) {
 						numberOfKeywords[NEGATIVE_NEW]++;
 					}
 				}
-			} else if (!(time.contains("ÀÏ³â") || time.contains("2³â") || time.contains("3³â") || time.contains("4³â"))) { //old posts (more than 5 years)
-				for (int j = 0; j < positive.size(); j++) { // ±àÁ¤Àû Å°¿öµå °¹¼ö°¡ ¸î°³ÀÎ°¡
+			} else if (!(time.contains("ì¼ë…„") || time.contains("2ë…„") || time.contains("3ë…„") || time.contains("4ë…„"))) { //old posts (more than 5 years)
+				for (int j = 0; j < positive.size(); j++) { // ê¸ì •ì  í‚¤ì›Œë“œ ê°¯ìˆ˜ê°€ ëª‡ê°œì¸ê°€
 					if (reviewText.contains(positive.get(j))) {
 						numberOfKeywords[POSITIVE_OLD]++;
 					}
 				}
-				for (int j = 0; j < negative.size(); j++) { // ºÎÁ¤Àû Å°¿öµå °¹¼ö°¡ ¸î°³ÀÎ°¡
+				for (int j = 0; j < negative.size(); j++) { // ë¶€ì •ì  í‚¤ì›Œë“œ ê°¯ìˆ˜ê°€ ëª‡ê°œì¸ê°€
 					if (reviewText.contains(negative.get(j))) {
 						numberOfKeywords[NEGATVIE_OLD]++;
 					}
@@ -323,35 +325,35 @@ public class CrawlingApartmentPrices {
 			}
 		}
 		
-		//ÇØ´çµÇ´Â Å°¿öµå °³¼ö°¡ ³Ê¹« ÀûÀ¸¸é ºÎÁ¤È®ÇÏ´Ù°í ÆÇ´ÜÇØ¼­ ÆĞ½ºÇÔ
+		//í•´ë‹¹ë˜ëŠ” í‚¤ì›Œë“œ ê°œìˆ˜ê°€ ë„ˆë¬´ ì ìœ¼ë©´ ë¶€ì •í™•í•˜ë‹¤ê³  íŒë‹¨í•´ì„œ íŒ¨ìŠ¤í•¨
 		if ((numberOfKeywords[POSITIVE_NEW] + numberOfKeywords[NEGATIVE_NEW] < KEYWORDS_MIN) || (numberOfKeywords[POSITIVE_OLD] + numberOfKeywords[NEGATVIE_OLD] < KEYWORDS_MIN)) {
-			System.out.println("Å°¿öµå °³¼ö ºÎÁ·");
+			System.out.println("í‚¤ì›Œë“œ ê°œìˆ˜ ë¶€ì¡±");
 			passOrNot = true;
 		} else {
 			passOrNot = false;
 		}		
 	}
 	
-	//////////// ÆÄÀÏ¿¡ °á°ú ÀÛ¼º
+	//////////// íŒŒì¼ì— ê²°ê³¼ ì‘ì„±
 	private static void writeResult() {
 		try {
-			bw.write(address + "," + priceIncrease + "%,"); //ÁÖ¼Ò, %·Î ¹Ù²Û °¡°İ»ó½ÂÀ²(¼Ò¼öÁ¡ 1ÀÚ¸®)
+			bw.write(address + "," + priceIncrease + "%,"); //ì£¼ì†Œ, %ë¡œ ë°”ê¾¼ ê°€ê²©ìƒìŠ¹ìœ¨(ì†Œìˆ˜ì  1ìë¦¬)
 			
-			bw.write((float) (Math.round(1000 * (float)numberOfKeywords[POSITIVE_OLD] / (float)(numberOfKeywords[POSITIVE_OLD] + numberOfKeywords[NEGATVIE_OLD])) / 10.0) + "%,"); //¿¾³¯ ¿©·Ğ, %·Î ¹Ù²ÛÈÄ ¼Ò¼öÁ¡1ÀÚ¸®±îÁö ¹İ¿Ã¸²
-			bw.write(numberOfKeywords[POSITIVE_OLD] + "," + numberOfKeywords[NEGATVIE_OLD] + ","); //¿¾³¯ ±àÁ¤Àû Å°¿öµå ¼ö, ºÎÁ¤Àû Å°¿öµå ¼ö
+			bw.write((float) (Math.round(1000 * (float)numberOfKeywords[POSITIVE_OLD] / (float)(numberOfKeywords[POSITIVE_OLD] + numberOfKeywords[NEGATVIE_OLD])) / 10.0) + "%,"); //ì˜›ë‚  ì—¬ë¡ , %ë¡œ ë°”ê¾¼í›„ ì†Œìˆ˜ì 1ìë¦¬ê¹Œì§€ ë°˜ì˜¬ë¦¼
+			bw.write(numberOfKeywords[POSITIVE_OLD] + "," + numberOfKeywords[NEGATVIE_OLD] + ","); //ì˜›ë‚  ê¸ì •ì  í‚¤ì›Œë“œ ìˆ˜, ë¶€ì •ì  í‚¤ì›Œë“œ ìˆ˜
 			
-			bw.write((float) (Math.round(1000 * (float)numberOfKeywords[POSITIVE_NEW] / (float)(numberOfKeywords[POSITIVE_NEW] + numberOfKeywords[NEGATIVE_NEW])) / 10.0) + "%,"); //ÃÖ±Ù ¿©·Ğ, %·Î ¹Ù²ÛÈÄ ¼Ò¼öÁ¡1ÀÚ¸®±îÁö ¹İ¿Ã¸²
-			bw.write(numberOfKeywords[POSITIVE_NEW] + "," + numberOfKeywords[NEGATIVE_NEW] + ",");  //ÃÖ±Ù ±àÁ¤Àû Å°¿öµå ¼ö, ºÎÁ¤Àû Å°¿öµå ¼ö
+			bw.write((float) (Math.round(1000 * (float)numberOfKeywords[POSITIVE_NEW] / (float)(numberOfKeywords[POSITIVE_NEW] + numberOfKeywords[NEGATIVE_NEW])) / 10.0) + "%,"); //ìµœê·¼ ì—¬ë¡ , %ë¡œ ë°”ê¾¼í›„ ì†Œìˆ˜ì 1ìë¦¬ê¹Œì§€ ë°˜ì˜¬ë¦¼
+			bw.write(numberOfKeywords[POSITIVE_NEW] + "," + numberOfKeywords[NEGATIVE_NEW] + ",");  //ìµœê·¼ ê¸ì •ì  í‚¤ì›Œë“œ ìˆ˜, ë¶€ì •ì  í‚¤ì›Œë“œ ìˆ˜
 			bw.write("\n");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		recordedAddressCount++;
-		System.out.println(" ****** " + recordedAddressCount + " ¹øÂ° ÁÖ¼Ò ÀÛ¼ºÇÔ ******");
+		System.out.println(" ****** " + recordedAddressCount + " ë²ˆì§¸ ì£¼ì†Œ ì‘ì„±í•¨ ******");
 	}
 	
-	//////////// ÆÄÀÏÁ¾·á, Á¾·á¸Ş½ÃÁö Ãâ·Â
+	//////////// íŒŒì¼ì¢…ë£Œ, ì¢…ë£Œë©”ì‹œì§€ ì¶œë ¥
 	private static void wrapUp() {
 		try {
 			br.close();
@@ -363,50 +365,50 @@ public class CrawlingApartmentPrices {
 		System.out.println("Finished");	
 	}
 	
-	//////////// ¸ŞÀÎ
+	//////////// ë©”ì¸
 	public static void main(String[] args) {
 		try {
-			br = new BufferedReader(new FileReader(dataFile)); // °¡Á®¿Ã ¾ÆÆÄÆ® ¸ñ·Ï
-			bw = new BufferedWriter(new FileWriter(resultFile)); // °á°ú¸¦ ÀÔ·ÂÇÒ ÆÄÀÏ
+			br = new BufferedReader(new FileReader(dataFile)); // ê°€ì ¸ì˜¬ ì•„íŒŒíŠ¸ ëª©ë¡
+			bw = new BufferedWriter(new FileWriter(resultFile)); // ê²°ê³¼ë¥¼ ì…ë ¥í•  íŒŒì¼
 			System.setProperty("webdriver.chrome.driver", chromeDriverFile);
-			driver = new ChromeDriver(); // Å©·Ò µå¶óÀÌ¹ö
+			driver = new ChromeDriver(); // í¬ë¡¬ ë“œë¼ì´ë²„
 
-			login(); //·Î±×ÀÎ
-			writeLabels(); // °á°úÆÄÀÏÀÇ Ã¹ÁÙ ±â·Ï
-			skip(16); // ¿øÇÏ´Â µ¥ÀÌÅÍ°¡ 17¹øÂ° ÁÙºÎÅÍ ½ÃÀÛÇÏ¹Ç·Î ¹®¼­ÀÇ Ã¹ 16ÁÙÀ» ½ºÅµÇÔ
+			login(); //ë¡œê·¸ì¸
+			writeLabels(); // ê²°ê³¼íŒŒì¼ì˜ ì²«ì¤„ ê¸°ë¡
+			skip(16); // ì›í•˜ëŠ” ë°ì´í„°ê°€ 17ë²ˆì§¸ ì¤„ë¶€í„° ì‹œì‘í•˜ë¯€ë¡œ ë¬¸ì„œì˜ ì²« 16ì¤„ì„ ìŠ¤í‚µí•¨
 			
-			while ((line = br.readLine()) != null) { //¿¢¼¿ÆÄÀÏ¿¡¼­ ÁÖ¼Ò»Ì¾Æ¿Í¼­ È£°»³ë³ë¿¡¼­ µ¥ÀÌÅÍÃßÃâÈÄ ResultÆÄÀÏ¿¡ ±â·Ï, ±×°É ¹İº¹
+			while ((line = br.readLine()) != null) { //ì—‘ì…€íŒŒì¼ì—ì„œ ì£¼ì†Œë½‘ì•„ì™€ì„œ í˜¸ê°±ë…¸ë…¸ì—ì„œ ë°ì´í„°ì¶”ì¶œí›„ ResultíŒŒì¼ì— ê¸°ë¡, ê·¸ê±¸ ë°˜ë³µ
 				CurrentLineToArray();
 				
-				checkDuplicate(); // Áßº¹ÁÖ¼ÒÀÎÁö °Ë»ç
+				checkDuplicate(); // ì¤‘ë³µì£¼ì†Œì¸ì§€ ê²€ì‚¬
 				if (passOrNot == true) {
 					continue;
 				}
 				
-				openAddress(); // ÁÖ¼Ò¸¦ °Ë»ö, ÇØ´ç ¾ÆÆÄÆ®ÀÇ ÆäÀÌÁö ¿­±â
+				openAddress(); // ì£¼ì†Œë¥¼ ê²€ìƒ‰, í•´ë‹¹ ì•„íŒŒíŠ¸ì˜ í˜ì´ì§€ ì—´ê¸°
 				if (passOrNot == true) {
 					continue;
 				}
 				
-				checkReviewNumbers(); // ¸®ºä°¹¼ö¸¦ °Ë»ç
+				checkReviewNumbers(); // ë¦¬ë·°ê°¯ìˆ˜ë¥¼ ê²€ì‚¬
 				if (passOrNot == true) {
 					continue;
 				}
 				
-				priceIncrease = getPriceIncrease(); // ¿¬°£ °¡°İ»ó½Â·ü Á¶»ç
+				priceIncrease = getPriceIncrease(); // ì—°ê°„ ê°€ê²©ìƒìŠ¹ë¥  ì¡°ì‚¬
 				if (passOrNot == true) {
 					continue;
 				}
 				
-				countKeywords(); // Å°¿öµå °³¼ö Á¶»ç
+				countKeywords(); // í‚¤ì›Œë“œ ê°œìˆ˜ ì¡°ì‚¬
 				if (passOrNot == true) {
 					continue;
 				}
 				
-				writeResult(); // °á°ú¸¦ ÆÄÀÏ¿¡ ÀÔ·Â
+				writeResult(); // ê²°ê³¼ë¥¼ íŒŒì¼ì— ì…ë ¥
 			}
 			
-			wrapUp(); // Á¾·á
+			wrapUp(); // ì¢…ë£Œ
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
